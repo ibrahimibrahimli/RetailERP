@@ -1,4 +1,6 @@
 
+using Persistance.Extensions;
+
 namespace RetailERP.API
 {
     public class Program
@@ -6,6 +8,8 @@ namespace RetailERP.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddPersistance(builder.Configuration);
 
             // Add services to the container.
 
