@@ -6,5 +6,6 @@ namespace Domain.Entities
     {
         public string Name { get; set; } = null;
         public bool IsActive { get; set; } = true;
+        public ICollection<Brand> Brands { get; set; } = new List<Brand>();
     }
 }
