@@ -2,15 +2,25 @@
 {
     public class BaseEntity
     {
-        public Guid Id { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public string? CreatedBy { get; set; }
+        public Guid Id { get; protected set; }
+        public DateTime CreatedAt { get; protected set; } = DateTime.UtcNow;
+        public string? CreatedBy { get; protected set; }
 
-        public DateTime? UpdatedAt { get; set; }
-        public string? UpdatedBy { get; set; }
+        public DateTime? UpdatedAt { get; protected set; }
+        public string? UpdatedBy { get; protected set; }
 
-        public bool Deleted { get; set; }
-        public DateTime? DeletedAt { get; set; }
-        public string? DeletedBy { get; set; }
+        public bool Deleted { get; protected set; }
+        public DateTime? DeletedAt { get; protected set; }
+        public string? DeletedBy { get; protected set; }
+        protected BaseEntity()
+        {
+            Id = Guid.NewGuid();
+            CreatedAt = DateTime.UtcNow;
+        }
+
+        protected void SetUpdatedTime()
+        {
+            UpdatedAt = DateTime.UtcNow;
+        }
     }
 }

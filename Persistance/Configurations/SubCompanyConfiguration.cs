@@ -18,6 +18,10 @@ namespace Persistance.Configurations
 
             builder.Property(x => x.IsActive)
                 .IsRequired();
+
+            builder.Metadata
+                .FindNavigation(nameof(SubCompany.Brands))!
+                .SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

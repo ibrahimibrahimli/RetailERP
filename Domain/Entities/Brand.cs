@@ -30,16 +30,20 @@ namespace Domain.Entities
         public void Activate()
         {
             IsActive = true;
+            SetUpdatedTime();
         }
 
         public void Deactivate()
         {
             IsActive = false;
+
+            SetUpdatedTime();
         }
 
         public void UpdateName(string name)
         {
             SetName(name);
+            SetUpdatedTime();
         }
 
         private void SetName(string name)
