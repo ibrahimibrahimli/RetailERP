@@ -1,7 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Application.Interfaces.Repositories.Read.Common;
+using Application.Interfaces.Repositories.Write.Common;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Persistance.Context;
+using Persistance.Repositories.Read.Common;
+using Persistance.Repositories.Write.Common;
 
 namespace Persistance.Extensions
 {
@@ -13,6 +17,12 @@ namespace Persistance.Extensions
             {
                 options.UseNpgsql(configuration.GetConnectionString("PostgreSql"));
             });
+
+            services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
+            services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
+
+            services.AddScoped<IBrandReadRepository, BrandReadRepository>();
+            services.AddScoped<IBrandWriteRepository, BrandWriteRepository>();
 
             return services;
         }
