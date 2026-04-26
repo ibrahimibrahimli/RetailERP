@@ -29,4 +29,3 @@ namespace Persistance.Repositories.Read.Common
         }
     }
 }
-}

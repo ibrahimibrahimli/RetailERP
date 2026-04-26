@@ -4,5 +4,6 @@ namespace Application.Interfaces.Repositories.Read.Common
 {
     public interface IBrandReadRepository : IReadRepository<Brand>
     {
+        Task<bool> ExistsByNameAsync(string name);
     }
 }
