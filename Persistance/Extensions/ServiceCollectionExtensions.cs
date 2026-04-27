@@ -24,6 +24,9 @@ namespace Persistance.Extensions
             services.AddScoped<IBrandReadRepository, BrandReadRepository>();
             services.AddScoped<IBrandWriteRepository, BrandWriteRepository>();
 
+            services.AddScoped<ISubCompanyWriteRepository, SubCompanyWriteRepository>();
+            services.AddScoped<ISubCompanyReadRepository, SubCompanyReadRepository>();
+
             return services;
         }
     }
