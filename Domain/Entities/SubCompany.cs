@@ -13,10 +13,14 @@ namespace Domain.Entities
         private SubCompany() { }
 
 
-        public SubCompany(string name)
+        private SubCompany(string name)
         {
             SetName(name);
             IsActive = true;
+        }
+        public static SubCompany Create(string name)
+        {
+            return new SubCompany(name);
         }
 
         public void Activate()
@@ -53,7 +57,7 @@ namespace Domain.Entities
                 throw new ArgumentException(
                     "SubCompany name cannot be empty.");
 
-            Name = name;
+            Name = name.Trim();
         }
     }
 }

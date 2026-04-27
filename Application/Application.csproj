@@ -18,6 +18,8 @@
   <ItemGroup>
     <Folder Include="Features\Brands\Dtos\" />
     <Folder Include="Features\Brands\Queries\" />
+    <Folder Include="Features\SubCompanies\DTOs\" />
+    <Folder Include="Features\SubCompanies\Queries\" />
   </ItemGroup>
 
 </Project>
