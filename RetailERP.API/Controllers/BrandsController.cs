@@ -7,7 +7,7 @@ namespace RetailERP.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BrandsController : ControllerBase
+    public class BrandsController : BaseController
     {
         private readonly IMediator _mediator;
 
@@ -21,9 +21,7 @@ namespace RetailERP.API.Controllers
         {
             var result = await _mediator.Send(command);
 
-            if (result.IsFailure) return BadRequest(result.Error);
-
-            return Ok(result);
+            return HandleResult(result);
         }
     }
 }

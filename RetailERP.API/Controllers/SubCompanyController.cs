@@ -6,7 +6,7 @@ namespace RetailERP.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SubCompanyController : ControllerBase
+    public class SubCompanyController : BaseController
     {
         private readonly IMediator _mediator;
 
@@ -20,10 +20,8 @@ namespace RetailERP.API.Controllers
         public async Task<IActionResult> Create(CreateSubCompanyCommand command)
         {
             var result = await _mediator.Send(command);
-            if (result.IsFailure)
-                return BadRequest(result.Error);
 
-            return Ok(result);  
+            return HandleResult(result);  
         }
     }
 }
