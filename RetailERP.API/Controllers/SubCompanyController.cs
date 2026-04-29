@@ -1,4 +1,5 @@
 ﻿using Application.Features.SubCompanies.Command;
+using Application.Features.SubCompanies.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +23,14 @@ namespace RetailERP.API.Controllers
             var result = await _mediator.Send(command);
 
             return HandleResult(result);  
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllSubCompaniesQuery());
+
+            return HandleResult(result);
         }
     }
 }
