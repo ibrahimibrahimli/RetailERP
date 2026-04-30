@@ -18,5 +18,13 @@ namespace Persistance.Repositories.Read.Common
                 .AsNoTracking()
                 .AnyAsync(x => x.Name == name);
         }
+
+        public async Task<List<Brand>> GetAllWithSubCompanyAsync()
+        {
+            return await Context.Brands
+                .AsNoTracking()
+                .Include(x => x.SubCompany)
+                .ToListAsync();
+        }
     }
 }
