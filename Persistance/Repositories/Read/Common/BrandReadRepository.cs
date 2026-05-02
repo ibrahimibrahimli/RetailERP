@@ -24,6 +24,7 @@ namespace Persistance.Repositories.Read.Common
             return await Context.Brands
                 .AsNoTracking()
                 .Include(x => x.SubCompany)
+                .Where(x => !x.IsDeleted)
                 .ToListAsync();
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Application.Features.Brands.Command.CreateBrand;
+using Application.Features.Brands.Command.DeleteBrand;
 using Application.Features.Brands.Command.UpdateBrandName;
 using Application.Features.Brands.Queries;
 using MediatR;
@@ -37,6 +38,14 @@ namespace RetailERP.API.Controllers
         [HttpPut("UpdateName")]
         public async Task<IActionResult> UpdateBrandName(UpdateBrandNameCommand command)
         {
+            var result = await _mediator.Send(command);
+            return HandleResult(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var command = new DeleteBrandCommand(id);
             var result = await _mediator.Send(command);
             return HandleResult(result);
         }

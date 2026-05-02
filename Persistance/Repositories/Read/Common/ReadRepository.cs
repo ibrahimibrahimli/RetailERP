@@ -18,6 +18,7 @@ namespace Persistance.Repositories.Read.Common
         {
             return await Context.Set<T>()
             .AsNoTracking()
+            .Where(x => !x.IsDeleted)
             .ToListAsync();
         }
 
@@ -25,13 +26,13 @@ namespace Persistance.Repositories.Read.Common
         {
             return await Context.Set<T>()
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
         }
 
         public async Task<T?> GetTrackedByIdAsync(Guid id)
         {
             return await Context.Set<T>()
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
         }
     }
 }

@@ -53,5 +53,11 @@ namespace Domain.Entities
 
             Name = name;
         }
+
+        public void Delete()
+        {
+            MarkAsDeleted();
+            SetUpdatedTime();
+        }
     }
 }

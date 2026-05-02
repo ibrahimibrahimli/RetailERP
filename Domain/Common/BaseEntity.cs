@@ -9,7 +9,7 @@
         public DateTime? UpdatedAt { get; protected set; }
         public string? UpdatedBy { get; protected set; }
 
-        public bool Deleted { get; protected set; }
+        public bool IsDeleted { get; protected set; } = false;
         public DateTime? DeletedAt { get; protected set; }
         public string? DeletedBy { get; protected set; }
         protected BaseEntity()
@@ -21,6 +21,12 @@
         protected void SetUpdatedTime()
         {
             UpdatedAt = DateTime.UtcNow;
+        }
+
+        protected void MarkAsDeleted()
+        {
+            IsDeleted = true;
+            DeletedAt = DateTime.UtcNow;
         }
     }
 }
