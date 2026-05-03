@@ -1,6 +1,7 @@
 
 using Application.Extensions;
 using Persistance.Extensions;
+using RetailERP.API.Extensions;
 
 namespace RetailERP.API
 {
@@ -33,6 +34,7 @@ namespace RetailERP.API
 
             app.UseAuthorization();
 
+            app.UseCustomExceptionMiddleware();
 
             app.MapControllers();
 
