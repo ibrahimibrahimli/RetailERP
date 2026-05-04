@@ -4,6 +4,7 @@ namespace Domain.Entities
 {
     public class Brand : BaseEntity
     {
+        private readonly List<Branch> _branches = [];
         public string Name { get; private set; }
 
         public bool IsActive { get; private set; }
@@ -12,6 +13,8 @@ namespace Domain.Entities
 
         public SubCompany SubCompany { get; private set; } = null!;
 
+
+        public IReadOnlyCollection<Branch> Branches => _branches.AsReadOnly();
         private Brand()
         {
         }
@@ -25,6 +28,13 @@ namespace Domain.Entities
             SubCompanyId = subCompanyId;
 
             IsActive = true;
+        }
+
+        public void AddBranch(Branch branch)
+        {
+            _branches.Add(branch);
+
+            SetUpdatedTime();
         }
 
         public void Activate()

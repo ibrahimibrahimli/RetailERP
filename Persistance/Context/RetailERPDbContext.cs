@@ -10,6 +10,7 @@ namespace Persistance.Context
 
         public DbSet<SubCompany> SubCompanies => Set<SubCompany>();
         public DbSet<Brand> Brands => Set<Brand>();
+        public DbSet<Branch> Branches => Set<Branch>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
