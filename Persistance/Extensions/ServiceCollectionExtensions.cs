@@ -27,6 +27,9 @@ namespace Persistance.Extensions
             services.AddScoped<ISubCompanyWriteRepository, SubCompanyWriteRepository>();
             services.AddScoped<ISubCompanyReadRepository, SubCompanyReadRepository>();
 
+            services.AddScoped<IBranchWriteRepository, BranchWriteRepository>();
+            services.AddScoped<IBranchReadRepository, BranchReadRepository>();
+
             return services;
         }
     }
