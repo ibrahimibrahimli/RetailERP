@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using RetailERP.Domain.Entities;
 
 namespace Persistance.Context
 {
@@ -11,6 +12,7 @@ namespace Persistance.Context
         public DbSet<SubCompany> SubCompanies => Set<SubCompany>();
         public DbSet<Brand> Brands => Set<Brand>();
         public DbSet<Branch> Branches => Set<Branch>();
+        public DbSet<Product> Products => Set<Product>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

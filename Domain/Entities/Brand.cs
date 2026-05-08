@@ -1,10 +1,12 @@
 ﻿using Domain.Common;
+using RetailERP.Domain.Entities;
 
 namespace Domain.Entities
 {
     public class Brand : BaseEntity
     {
         private readonly List<Branch> _branches = [];
+        private readonly List<Product> _products = [];
         public string Name { get; private set; }
 
         public bool IsActive { get; private set; }
@@ -15,6 +17,9 @@ namespace Domain.Entities
 
 
         public IReadOnlyCollection<Branch> Branches => _branches.AsReadOnly();
+        public IReadOnlyCollection<Product> Products => _products.AsReadOnly();
+
+
         private Brand()
         {
         }
@@ -33,6 +38,13 @@ namespace Domain.Entities
         public void AddBranch(Branch branch)
         {
             _branches.Add(branch);
+
+            SetUpdatedTime();
+        }
+
+        public void AddProduct(Product product)
+        {
+            _products.Add(product);
 
             SetUpdatedTime();
         }

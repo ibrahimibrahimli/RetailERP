@@ -30,6 +30,9 @@ namespace Persistance.Extensions
             services.AddScoped<IBranchWriteRepository, BranchWriteRepository>();
             services.AddScoped<IBranchReadRepository, BranchReadRepository>();
 
+            services.AddScoped<IProductWriteRepository, ProductWriteRepository>();
+            services.AddScoped<IProductReadRepository, ProductReadRepository>();
+
             return services;
         }
     }
