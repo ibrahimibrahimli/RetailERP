@@ -11,6 +11,9 @@ namespace Domain.Entities
         public Guid BrandId { get; private set; }
         public Brand Brand { get; private set; } = null!;
 
+        private readonly List<BranchInventory> _branchInventories = [];
+        public IReadOnlyCollection<BranchInventory> BranchInventories => _branchInventories.AsReadOnly();
+
         private Branch()
         {
         }
