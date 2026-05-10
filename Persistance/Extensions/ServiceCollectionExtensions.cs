@@ -33,6 +33,9 @@ namespace Persistance.Extensions
             services.AddScoped<IProductWriteRepository, ProductWriteRepository>();
             services.AddScoped<IProductReadRepository, ProductReadRepository>();
 
+            services.AddScoped<IBranchInventoryWriteRepository, BranchInventoryWriteRepository>();
+            services.AddScoped<IBranchInventoryReadRepository, BranchInventoryReadRepository>();
+
             return services;
         }
     }

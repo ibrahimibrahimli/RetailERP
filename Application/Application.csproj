@@ -18,6 +18,8 @@
   <ItemGroup>
     <Folder Include="Features\Branches\Validators\" />
     <Folder Include="Features\Branches\Queries\" />
+    <Folder Include="Features\BranchInventories\DTOs\" />
+    <Folder Include="Features\BranchInventories\Queries\" />
     <Folder Include="Features\Products\DTOs\" />
     <Folder Include="Features\Products\Queries\" />
   </ItemGroup>
