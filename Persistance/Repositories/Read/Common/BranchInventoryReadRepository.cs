@@ -11,6 +11,15 @@ namespace Persistance.Repositories.Read.Common
         {
         }
 
+        public async Task<bool> ExistsAsync(Guid productId, Guid branchId)
+        {
+            return await Context.BranchInventories
+                .AsNoTracking()
+                .AnyAsync(x =>x.ProductId == productId &&
+                              x.BranchId == branchId &&
+                              !x.IsDeleted);
+        }
+
         public async Task<BranchInventory?> GetByProductAndBranchAsync(Guid productId, Guid branchId)
         {
             return await Context.BranchInventories

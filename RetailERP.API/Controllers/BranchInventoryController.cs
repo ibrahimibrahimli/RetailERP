@@ -1,4 +1,5 @@
 ﻿using Application.Features.BranchInventories.Commands.AddStock;
+using Application.Features.BranchInventories.Commands.CreateBranchInventory;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,13 @@ namespace RetailERP.API.Controllers
         {
             var result = await _mediator.Send(command);
              return HandleResult(result);
+        }
+
+        [HttpPost("create")]
+        public async Task<IActionResult> Create(CreateBranchInventoryCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return HandleResult(result);
         }
     }
 }
