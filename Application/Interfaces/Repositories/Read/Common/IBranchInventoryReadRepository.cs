@@ -6,5 +6,6 @@ namespace Application.Interfaces.Repositories.Read.Common
     {
         Task<BranchInventory?> GetByProductAndBranchAsync(Guid productId, Guid branchId);
         Task<bool> ExistsAsync(Guid productId, Guid branchId);
+        Task<List<BranchInventory>> GetLowStockInventoriesAsync();
     }
 }

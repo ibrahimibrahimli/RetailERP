@@ -2,6 +2,7 @@
 using Application.Features.BranchInventories.Commands.CreateBranchInventory;
 using Application.Features.BranchInventories.Commands.SellProduct;
 using Application.Features.BranchInventories.Commands.TransferStock;
+using Application.Features.BranchInventories.Queries.GetLowStockInventories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,6 +44,13 @@ namespace RetailERP.API.Controllers
         public async Task<IActionResult> TransferStock(TransferStockCommand command)
         {
             var result = await _mediator.Send(command);
+            return HandleResult(result);
+        }
+
+        [HttpGet("low-stock")]
+        public async Task<IActionResult> GetLowStockInventories()
+        {
+            var result = await _mediator.Send(new GetLowStockInventoriesQuery());
             return HandleResult(result);
         }
     }

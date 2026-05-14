@@ -28,5 +28,15 @@ namespace Persistance.Repositories.Read.Common
                 x.BranchId == branchId &&
                 !x.IsDeleted);
         }
+
+        public async Task<List<BranchInventory>> GetLowStockInventoriesAsync()
+        {
+            return await Context.BranchInventories
+                .AsNoTracking()
+                .Include(x => x.Product)
+                .Include(x => x.Branch)
+                .Where(x => x.Quantity <= x.MinimumStockLevel)
+                .ToListAsync();
+        }
     }
 }
