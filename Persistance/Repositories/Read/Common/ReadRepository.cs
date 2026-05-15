@@ -27,5 +27,11 @@ namespace Persistance.Repositories.Read.Common
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public async Task<T?> GetTrackedByIdAsync(Guid id)
+        {
+            return await Context.Set<T>()
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }

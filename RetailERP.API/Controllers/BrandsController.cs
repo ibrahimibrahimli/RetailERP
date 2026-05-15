@@ -1,4 +1,5 @@
 ﻿using Application.Features.Brands.Command.CreateBrand;
+using Application.Features.Brands.Command.UpdateBrandName;
 using Application.Features.Brands.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -26,11 +27,17 @@ namespace RetailERP.API.Controllers
         }
 
         [HttpGet("GetAll")]
-
         public async Task<IActionResult> GetAll()
         {
             var result = await _mediator.Send(new GetAllBrandsQuery());
 
+            return HandleResult(result);
+        }
+
+        [HttpPut("UpdateName")]
+        public async Task<IActionResult> UpdateBrandName(UpdateBrandNameCommand command)
+        {
+            var result = await _mediator.Send(command);
             return HandleResult(result);
         }
     }
