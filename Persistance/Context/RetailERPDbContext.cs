@@ -14,6 +14,7 @@ namespace Persistance.Context
         public DbSet<Branch> Branches => Set<Branch>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<BranchInventory> BranchInventories => Set<BranchInventory>();
+        public DbSet<InventoryTransaction> InventoryTransactions => Set<InventoryTransaction>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

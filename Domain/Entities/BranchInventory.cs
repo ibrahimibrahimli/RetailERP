@@ -5,6 +5,7 @@ namespace Domain.Entities
 {
     public class BranchInventory : BaseEntity
     {
+        private readonly List<InventoryTransaction> _transactions = [];
         public Guid ProductId { get; private set; }
 
         public Product Product { get; private set; } = null!;
@@ -18,6 +19,8 @@ namespace Domain.Entities
         public int MinimumStockLevel { get; private set; }
 
         public bool IsSelling { get; private set; }
+        
+        public IReadOnlyCollection<InventoryTransaction> Transactions => _transactions.AsReadOnly();
 
         private BranchInventory()
         {
@@ -133,6 +136,12 @@ namespace Domain.Entities
             }
 
             MinimumStockLevel = level;
+        }
+
+        public void AddTransaction(InventoryTransaction transaction)
+        {
+            _transactions.Add(transaction);
+            SetUpdatedTime();
         }
     }
 }
