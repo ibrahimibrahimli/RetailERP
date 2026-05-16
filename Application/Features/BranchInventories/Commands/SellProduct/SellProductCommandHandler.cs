@@ -24,7 +24,7 @@ namespace Application.Features.BranchInventories.Commands.SellProduct
 
             try
             {
-                inventory.DecreaseStock(request.Quantity);
+                inventory.SellProduct(request.Quantity);
             }
             catch (Exception ex)
             {

@@ -28,9 +28,9 @@ namespace Application.Features.BranchInventories.Commands.TransferStock
 
             try
             {
-                sourceInventory.DecreaseStock(request.Quantity);
+                sourceInventory.TransferOut(request.Quantity);
 
-                destinationInventory.IncreaseStock(request.Quantity);
+                destinationInventory.TransferIn(request.Quantity);
 
                 await _branchInventoryWriteRepository.SaveChangesAsync();
 

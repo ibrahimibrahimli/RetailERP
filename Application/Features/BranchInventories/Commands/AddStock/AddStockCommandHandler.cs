@@ -22,7 +22,7 @@ namespace Application.Features.BranchInventories.Commands.AddStock
             if (inventory is null)
                 return Result.Failure("Inventory record not found");
 
-            inventory.IncreaseStock(request.Quantity);
+            inventory.AddStock(request.Quantity);
 
             await _inventoryWriteRepository.SaveChangesAsync();
 

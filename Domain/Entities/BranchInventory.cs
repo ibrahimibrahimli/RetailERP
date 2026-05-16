@@ -1,4 +1,5 @@
 ﻿using Domain.Common;
+using Domain.Enums;
 using RetailERP.Domain.Entities;
 
 namespace Domain.Entities
@@ -19,7 +20,7 @@ namespace Domain.Entities
         public int MinimumStockLevel { get; private set; }
 
         public bool IsSelling { get; private set; }
-        
+
         public IReadOnlyCollection<InventoryTransaction> Transactions => _transactions.AsReadOnly();
 
         private BranchInventory()
@@ -56,38 +57,67 @@ namespace Domain.Entities
                 minimumStockLevel);
         }
 
-        public void IncreaseStock(int quantity)
+        private void IncreaseStock(int quantity, InventoryTransactionType type, string description)
         {
             if (quantity <= 0)
-            {
-                throw new ArgumentException(
-                    "Quantity must be greater than zero.");
-            }
+                throw new ArgumentException("Quantity must be greater than zero");
 
             Quantity += quantity;
 
+            InventoryTransaction transaction = InventoryTransaction.Create(Id, type, quantity, description);
+            AddTransaction(transaction);
+
             SetUpdatedTime();
         }
+        public void SellProduct(int quantity)
+        {
+            DecreaseStock(
+                quantity,
+                InventoryTransactionType.Sale,
+                "Product sold.");
+        }
 
-        public void DecreaseStock(int quantity)
+        public void AddStock(int quantity)
+        {
+            IncreaseStock(
+                quantity,
+                InventoryTransactionType.AddStock,
+                "Stock added.");
+        }
+
+        public void TransferOut(int quantity)
+        {
+            DecreaseStock(
+                quantity,
+                InventoryTransactionType.TransferOut,
+                "Stock transferred out.");
+        }
+
+        public void TransferIn(int quantity)
+        {
+            IncreaseStock(
+                quantity,
+                InventoryTransactionType.TransferIn,
+                "Stock transferred in.");
+        }
+
+        private void DecreaseStock(int quantity, InventoryTransactionType type, string description)
         {
             if (quantity <= 0)
-            {
-                throw new ArgumentException(
-                    "Quantity must be greater than zero.");
-            }
+                throw new ArgumentException("Quantity must be greater than zero");
 
             if (Quantity < quantity)
-            {
-                throw new InvalidOperationException(
-                    "Insufficient stock.");
-            }
+                throw new InvalidOperationException("Insuffient Stock");
 
             Quantity -= quantity;
 
+            InventoryTransaction transaction = InventoryTransaction.Create(Id, type, quantity, description);
+
+            AddTransaction(transaction);
             SetUpdatedTime();
         }
 
+        
         public void ChangeMinimumStockLevel(int level)
         {
             SetMinimumStockLevel(level);
