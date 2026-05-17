@@ -8,5 +8,6 @@ namespace Application.Interfaces.Repositories.Write.Common
         void Update(T entity);
         void Remove(T entity);
         Task SaveChangesAsync();
+        void Attach(T entity);
     }
 }

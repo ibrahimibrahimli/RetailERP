@@ -21,7 +21,7 @@ namespace Domain.Entities
 
         public bool IsSelling { get; private set; }
 
-        public IReadOnlyCollection<InventoryTransaction> Transactions => _transactions.AsReadOnly();
+        public IReadOnlyCollection<InventoryTransaction> Transactions => _transactions;
 
         private BranchInventory()
         {
@@ -57,7 +57,7 @@ namespace Domain.Entities
                 minimumStockLevel);
         }
 
-        private void IncreaseStock(int quantity, InventoryTransactionType type, string description)
+        private InventoryTransaction IncreaseStock(int quantity, InventoryTransactionType type, string description)
         {
             if (quantity <= 0)
                 throw new ArgumentException("Quantity must be greater than zero");
@@ -68,40 +68,41 @@ namespace Domain.Entities
             AddTransaction(transaction);
 
             SetUpdatedTime();
+            return transaction;
         }
-        public void SellProduct(int quantity)
+        public InventoryTransaction SellProduct(int quantity)
         {
-            DecreaseStock(
+            return DecreaseStock(
                 quantity,
                 InventoryTransactionType.Sale,
                 "Product sold.");
         }
 
-        public void AddStock(int quantity)
+        public InventoryTransaction AddStock(int quantity)
         {
-            IncreaseStock(
+             return IncreaseStock(
                 quantity,
                 InventoryTransactionType.AddStock,
                 "Stock added.");
         }
 
-        public void TransferOut(int quantity)
+        public InventoryTransaction TransferOut(int quantity)
         {
-            DecreaseStock(
+           return DecreaseStock(
                 quantity,
                 InventoryTransactionType.TransferOut,
                 "Stock transferred out.");
         }
 
-        public void TransferIn(int quantity)
+        public InventoryTransaction TransferIn(int quantity)
         {
-            IncreaseStock(
+            return IncreaseStock(
                 quantity,
                 InventoryTransactionType.TransferIn,
                 "Stock transferred in.");
         }
 
-        private void DecreaseStock(int quantity, InventoryTransactionType type, string description)
+        private InventoryTransaction DecreaseStock(int quantity, InventoryTransactionType type, string description)
         {
             if (quantity <= 0)
                 throw new ArgumentException("Quantity must be greater than zero");
@@ -115,9 +116,10 @@ namespace Domain.Entities
 
             AddTransaction(transaction);
             SetUpdatedTime();
+            return transaction;
         }
 
-        
+
         public void ChangeMinimumStockLevel(int level)
         {
             SetMinimumStockLevel(level);
@@ -171,7 +173,6 @@ namespace Domain.Entities
         public void AddTransaction(InventoryTransaction transaction)
         {
             _transactions.Add(transaction);
-            SetUpdatedTime();
         }
     }
 }

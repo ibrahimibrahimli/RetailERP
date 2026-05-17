@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces.Repositories.Write.Common;
 using Domain.Common;
+using Microsoft.EntityFrameworkCore;
 using Persistance.Context;
 
 namespace Persistance.Repositories.Write.Common
@@ -18,6 +19,12 @@ namespace Persistance.Repositories.Write.Common
             await Context.Set<T>().AddAsync(entity);
         }
 
+        public void Attach(T entity)
+        {
+            if (Context.Entry(entity).State == EntityState.Detached)
+                Context.Set<T>().Attach(entity);
+        }
+
         public void Remove(T entity)
         {
             Context.Set<T>().Remove(entity);
@@ -25,7 +32,31 @@ namespace Persistance.Repositories.Write.Common
 
         public async Task SaveChangesAsync()
         {
-            await Context.SaveChangesAsync();
+            bool saved = false;
+            while (!saved)
+            {
+                try
+                {
+                    await Context.SaveChangesAsync();
+                    saved = true;
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    foreach (var entry in ex.Entries)
+                    {
+                        var dbValues = await entry.GetDatabaseValuesAsync();
+
+                        if (dbValues == null)
+                        {
+                            entry.State = EntityState.Detached;
+                            continue; 
+                        }
+
+                        entry.OriginalValues.SetValues(dbValues);
+                        entry.CurrentValues.SetValues(dbValues); 
+                    }
+                }
+            }
         }
 
         public void Update(T entity)

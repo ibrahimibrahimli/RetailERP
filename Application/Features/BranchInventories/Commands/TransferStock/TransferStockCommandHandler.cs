@@ -9,11 +9,13 @@ namespace Application.Features.BranchInventories.Commands.TransferStock
     {
         private readonly IBranchInventoryWriteRepository _branchInventoryWriteRepository;
         private readonly IBranchInventoryReadRepository _branchInventoryReadRepository; 
+        private readonly IInventoryTransactionWriteRepository _inventoryTransactionWriteRepository;
 
-        public TransferStockCommandHandler(IBranchInventoryWriteRepository branchInventoryWriteRepository, IBranchInventoryReadRepository branchInventoryReadRepository)
+        public TransferStockCommandHandler(IBranchInventoryWriteRepository branchInventoryWriteRepository, IBranchInventoryReadRepository branchInventoryReadRepository, IInventoryTransactionWriteRepository inventoryTransactionWriteRepository)
         {
             _branchInventoryWriteRepository = branchInventoryWriteRepository;
             _branchInventoryReadRepository = branchInventoryReadRepository;
+            _inventoryTransactionWriteRepository = inventoryTransactionWriteRepository;
         }
 
         public async Task<Result> Handle(TransferStockCommand request, CancellationToken cancellationToken)
@@ -28,10 +30,16 @@ namespace Application.Features.BranchInventories.Commands.TransferStock
 
             try
             {
-                sourceInventory.TransferOut(request.Quantity);
+                var outTransaction = sourceInventory.TransferOut(request.Quantity);
 
-                destinationInventory.TransferIn(request.Quantity);
+                var inTransaction = destinationInventory.TransferIn(request.Quantity);
 
+                _branchInventoryWriteRepository.Attach(sourceInventory);
+                _branchInventoryWriteRepository.Attach(destinationInventory);
+
+
+                await _inventoryTransactionWriteRepository.AddAsync(outTransaction);
+                await _inventoryTransactionWriteRepository.AddAsync(inTransaction);
                 await _branchInventoryWriteRepository.SaveChangesAsync();
 
                 return Result.Success();

@@ -1,6 +1,7 @@
 ﻿using Application.Common.Results;
 using Application.Interfaces.Repositories.Read.Common;
 using Application.Interfaces.Repositories.Write.Common;
+using Domain.Entities;
 using MediatR;
 
 namespace Application.Features.BranchInventories.Commands.AddStock
@@ -9,11 +10,13 @@ namespace Application.Features.BranchInventories.Commands.AddStock
     {
         private readonly IBranchInventoryWriteRepository _inventoryWriteRepository;
         private readonly IBranchInventoryReadRepository _inventoryReadRepository;
+        private readonly IInventoryTransactionWriteRepository _inventoryTransactionWriteRepository;
 
-        public AddStockCommandHandler(IBranchInventoryWriteRepository ınventoryWriteRepository, IBranchInventoryReadRepository inventoryReadRepository)
+        public AddStockCommandHandler(IBranchInventoryWriteRepository ınventoryWriteRepository, IBranchInventoryReadRepository inventoryReadRepository, IInventoryTransactionWriteRepository inventoryTransactionWriteRepository)
         {
             _inventoryWriteRepository = ınventoryWriteRepository;
             _inventoryReadRepository = inventoryReadRepository;
+            _inventoryTransactionWriteRepository = inventoryTransactionWriteRepository;
         }
 
         public async Task<Result> Handle(AddStockCommand request, CancellationToken cancellationToken)
@@ -22,7 +25,9 @@ namespace Application.Features.BranchInventories.Commands.AddStock
             if (inventory is null)
                 return Result.Failure("Inventory record not found");
 
-            inventory.AddStock(request.Quantity);
+            InventoryTransaction transaction = inventory.AddStock(request.Quantity);
+
+            await _inventoryTransactionWriteRepository.AddAsync(transaction);
 
             await _inventoryWriteRepository.SaveChangesAsync();
 

@@ -9,11 +9,13 @@ namespace Application.Features.BranchInventories.Commands.SellProduct
     {
         private readonly IBranchInventoryWriteRepository _inventoryWriteRepository;
         private readonly IBranchInventoryReadRepository _inventoryReadRepository;
+        private readonly IInventoryTransactionWriteRepository _inventoryTransactionWriteRepository;
 
-        public SellProductCommandHandler(IBranchInventoryWriteRepository inventoryWriteRepository, IBranchInventoryReadRepository inventoryReadRepository)
+        public SellProductCommandHandler(IBranchInventoryWriteRepository inventoryWriteRepository, IBranchInventoryReadRepository inventoryReadRepository, IInventoryTransactionWriteRepository inventoryTransactionWriteRepository)
         {
             _inventoryWriteRepository = inventoryWriteRepository;
             _inventoryReadRepository = inventoryReadRepository;
+            _inventoryTransactionWriteRepository = inventoryTransactionWriteRepository;
         }
 
         public async Task<Result> Handle(SellProductCommand request, CancellationToken cancellationToken)
@@ -24,7 +26,8 @@ namespace Application.Features.BranchInventories.Commands.SellProduct
 
             try
             {
-                inventory.SellProduct(request.Quantity);
+                var transaction = inventory.SellProduct(request.Quantity);
+                await _inventoryTransactionWriteRepository.AddAsync(transaction);
             }
             catch (Exception ex)
             {

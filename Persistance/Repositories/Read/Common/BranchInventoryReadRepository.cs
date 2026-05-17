@@ -23,6 +23,7 @@ namespace Persistance.Repositories.Read.Common
         public async Task<BranchInventory?> GetByProductAndBranchAsync(Guid productId, Guid branchId)
         {
             return await Context.BranchInventories
+                .Include(x => x.Transactions)
                 .FirstOrDefaultAsync(x =>
                 x.ProductId == productId &&
                 x.BranchId == branchId &&
