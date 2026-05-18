@@ -26,7 +26,7 @@ namespace Application.Features.BranchInventories.Commands.SellProduct
 
             try
             {
-                var transaction = inventory.SellProduct(request.Quantity);
+                var transaction = inventory.SellProduct(request.Quantity, "");
                 await _inventoryTransactionWriteRepository.AddAsync(transaction);
             }
             catch (Exception ex)

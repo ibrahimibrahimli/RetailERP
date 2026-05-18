@@ -25,7 +25,7 @@ namespace Application.Features.BranchInventories.Commands.AddStock
             if (inventory is null)
                 return Result.Failure("Inventory record not found");
 
-            InventoryTransaction transaction = inventory.AddStock(request.Quantity);
+            InventoryTransaction transaction = inventory.AddStock(request.Quantity, "");
 
             await _inventoryTransactionWriteRepository.AddAsync(transaction);
 
