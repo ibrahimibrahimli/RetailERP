@@ -22,6 +22,12 @@ namespace Persistance.Configurations
             builder.Property(x => x.Type)
                 .IsRequired();
 
+            builder.Property(x => x.Source)
+                .HasMaxLength(100);
+
+            builder.Property(x => x.ReferenceCode)
+                .HasMaxLength(100);
+
             builder.HasOne(x => x.BranchInventory)
                 .WithMany(x => x.Transactions)
                 .HasForeignKey(x => x.BranchInventoryId)

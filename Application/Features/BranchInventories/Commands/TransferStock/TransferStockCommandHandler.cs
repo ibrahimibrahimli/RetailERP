@@ -30,9 +30,10 @@ namespace Application.Features.BranchInventories.Commands.TransferStock
 
             try
             {
-                var outTransaction = sourceInventory.TransferOut(request.Quantity);
+                string transferCode = $"TRF-{Guid.NewGuid().ToString()[..8]}";
+                var outTransaction = sourceInventory.TransferOut(request.Quantity, transferCode);
 
-                var inTransaction = destinationInventory.TransferIn(request.Quantity);
+                var inTransaction = destinationInventory.TransferIn(request.Quantity, transferCode);
 
                 _branchInventoryWriteRepository.Attach(sourceInventory);
                 _branchInventoryWriteRepository.Attach(destinationInventory);

@@ -10,6 +10,8 @@ namespace Domain.Entities
         public InventoryTransactionType Type { get; private set; }
         public int Quantity { get; private set; }
         public string Description { get; private set; }
+        public string? ReferenceCode { get; private set;}
+        public string? Source { get; private set; }
 
 
         private InventoryTransaction()
@@ -20,11 +22,15 @@ namespace Domain.Entities
             Guid branchInventoryId,
             InventoryTransactionType type,
             int quantity,
-            string description)
+            string description,
+            string? source,
+            string? referenceCode)
         {
             BranchInventoryId = branchInventoryId;
 
             Type = type;
+            Source = source;
+            ReferenceCode = referenceCode;
 
             SetQuantity(quantity);
 
@@ -35,13 +41,17 @@ namespace Domain.Entities
             Guid branchInventoryId,
             InventoryTransactionType type,
             int quantity,
-            string description)
+            string description,
+            string? source = null,
+            string? referenceCode = null)
         {
             return new InventoryTransaction(
                 branchInventoryId,
                 type,
                 quantity,
-                description);
+                description,
+                source,
+                referenceCode);
         }
 
         private void SetQuantity(int quantity)

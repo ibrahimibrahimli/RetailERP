@@ -57,52 +57,21 @@ namespace Domain.Entities
                 minimumStockLevel);
         }
 
-        private InventoryTransaction IncreaseStock(int quantity, InventoryTransactionType type, string description)
+        private InventoryTransaction IncreaseStock(int quantity, InventoryTransactionType type, string description, string? source, string? referenceCode)
         {
             if (quantity <= 0)
                 throw new ArgumentException("Quantity must be greater than zero");
 
             Quantity += quantity;
 
-            InventoryTransaction transaction = InventoryTransaction.Create(Id, type, quantity, description);
+            InventoryTransaction transaction = InventoryTransaction.Create(Id, type, quantity, description, source, referenceCode);
             AddTransaction(transaction);
 
             SetUpdatedTime();
             return transaction;
         }
-        public InventoryTransaction SellProduct(int quantity)
-        {
-            return DecreaseStock(
-                quantity,
-                InventoryTransactionType.Sale,
-                "Product sold.");
-        }
 
-        public InventoryTransaction AddStock(int quantity)
-        {
-             return IncreaseStock(
-                quantity,
-                InventoryTransactionType.AddStock,
-                "Stock added.");
-        }
-
-        public InventoryTransaction TransferOut(int quantity)
-        {
-           return DecreaseStock(
-                quantity,
-                InventoryTransactionType.TransferOut,
-                "Stock transferred out.");
-        }
-
-        public InventoryTransaction TransferIn(int quantity)
-        {
-            return IncreaseStock(
-                quantity,
-                InventoryTransactionType.TransferIn,
-                "Stock transferred in.");
-        }
-
-        private InventoryTransaction DecreaseStock(int quantity, InventoryTransactionType type, string description)
+        private InventoryTransaction DecreaseStock(int quantity, InventoryTransactionType type, string description, string? source, string? referenceCode)
         {
             if (quantity <= 0)
                 throw new ArgumentException("Quantity must be greater than zero");
@@ -118,7 +87,45 @@ namespace Domain.Entities
             SetUpdatedTime();
             return transaction;
         }
+        public InventoryTransaction SellProduct(int quantity, string referenceCode)
+        {
+            return DecreaseStock(
+                quantity,
+                InventoryTransactionType.Sale,
+                "Product sold.",
+                "Sold",
+                referenceCode);
+        }
 
+        public InventoryTransaction AddStock(int quantity, string referenceCode)
+        {
+             return IncreaseStock(
+                quantity,
+                InventoryTransactionType.AddStock,
+                "Stock added.",
+                "Stock",
+                referenceCode);
+        }
+
+        public InventoryTransaction TransferOut(int quantity, string referenceCode)
+        {
+           return DecreaseStock(
+                quantity,
+                InventoryTransactionType.TransferOut,
+                "Stock transferred out.",
+                "Transfer",
+                referenceCode);
+        }
+
+        public InventoryTransaction TransferIn(int quantity, string referenceCode)
+        {
+            return IncreaseStock(
+                quantity,
+                InventoryTransactionType.TransferIn,
+                "Stock transferred in.",
+                "Transfer",
+                referenceCode);
+        }
 
         public void ChangeMinimumStockLevel(int level)
         {
