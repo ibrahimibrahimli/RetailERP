@@ -1,4 +1,5 @@
 ﻿using Application.Features.Sales.Commands.CreateSale;
+using Application.Features.Sales.Queries.GetSaleById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,8 +19,15 @@ namespace RetailERP.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateSaleCommand command)
         {
-            var result = await _mediator.Send(command); 
+            var result = await _mediator.Send(command);
             return HandleResult(result);
+        }
+
+        [HttpGet("{saleId}")]
+        public async Task<IActionResult> GetById(Guid saleId)
+        {
+            var result = await _mediator.Send(new GetSaleByIdQuery(saleId));
+            return HandleResult(result);    
         }
     }
 }
