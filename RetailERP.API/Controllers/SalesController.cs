@@ -1,4 +1,5 @@
 ﻿using Application.Features.Sales.Commands.CreateSale;
+using Application.Features.Sales.Queries.GetAllSales;
 using Application.Features.Sales.Queries.GetSaleById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,13 @@ namespace RetailERP.API.Controllers
         {
             var result = await _mediator.Send(new GetSaleByIdQuery(saleId));
             return HandleResult(result);    
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _mediator.Send(new GetAllSalesQuery());
+            return HandleResult(result);
         }
     }
 }

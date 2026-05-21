@@ -11,6 +11,14 @@ namespace Persistance.Repositories.Read.Common
         {
         }
 
+        public async Task<List<Sale>> GetAllSalesAsync()
+        {
+            return await Context.Sales
+                .AsNoTracking()
+                .OrderByDescending(x => x.SaleDate)
+                .ToListAsync();
+        }
+
         public async Task<Sale?> GetSaleDetailAsync(Guid saleId)
         {
             return await Context.Sales
