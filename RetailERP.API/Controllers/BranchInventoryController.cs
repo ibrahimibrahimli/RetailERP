@@ -34,6 +34,10 @@ namespace RetailERP.API.Controllers
         }
 
         [HttpPost("sell-products")]
+        ///Summary 
+        ///Deprecated.
+        /// Use Sales module instead.
+        ///Summary
         public async Task<IActionResult> SellProduct(SellProductCommand command)
         {
             var result = await _mediator.Send(command);
