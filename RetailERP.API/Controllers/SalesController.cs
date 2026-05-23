@@ -1,6 +1,7 @@
 ﻿using Application.Features.Sales.Commands.CreateSale;
 using Application.Features.Sales.Queries.GetAllSales;
 using Application.Features.Sales.Queries.GetSaleById;
+using Application.Features.Sales.Queries.GetSalesByBranch;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,6 +36,13 @@ namespace RetailERP.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             var result = await _mediator.Send(new GetAllSalesQuery());
+            return HandleResult(result);
+        }
+
+        [HttpGet("branch/{branchId}")]
+        public async Task<IActionResult> GetByBranch(Guid branchId)
+        {
+            var result = await _mediator.Send(new GetSalesByBranchQuery(branchId));
             return HandleResult(result);
         }
     }

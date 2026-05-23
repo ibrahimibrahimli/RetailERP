@@ -26,5 +26,14 @@ namespace Persistance.Repositories.Read.Common
                 .Include(x => x.Items)
                 .FirstOrDefaultAsync(x => x.Id == saleId && !x.IsDeleted);
         }
+
+        public async Task<List<Sale>> GetSalesByBranchAsync(Guid branchId)
+        {
+            return await Context.Sales
+                .AsNoTracking()
+                .Where(x => x.BranchId == branchId && !x.IsDeleted)
+                .OrderByDescending(x => x.SaleDate)
+                .ToListAsync();
+        }
     }
 }

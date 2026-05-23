@@ -6,5 +6,6 @@ namespace Application.Interfaces.Repositories.Read.Common
     {
         Task<Sale?> GetSaleDetailAsync(Guid saleId);
         Task<List<Sale>> GetAllSalesAsync();
+        Task<List<Sale>> GetSalesByBranchAsync(Guid branchId);
     }
 }
