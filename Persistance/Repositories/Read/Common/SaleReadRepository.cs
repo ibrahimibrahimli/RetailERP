@@ -35,5 +35,14 @@ namespace Persistance.Repositories.Read.Common
                 .OrderByDescending(x => x.SaleDate)
                 .ToListAsync();
         }
+
+        public async Task<List<Sale>> GetSalesByDateRangeAsync(DateTime startDate, DateTime endDate)
+        {
+            return await Context.Sales
+                .AsNoTracking()
+                .Where(x => x.SaleDate >= startDate && x.SaleDate <= endDate && !x.IsDeleted)
+                .OrderByDescending(x => x.SaleDate)
+                .ToListAsync();
+        }
     }
 }

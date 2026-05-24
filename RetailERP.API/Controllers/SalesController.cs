@@ -2,6 +2,7 @@
 using Application.Features.Sales.Queries.GetAllSales;
 using Application.Features.Sales.Queries.GetSaleById;
 using Application.Features.Sales.Queries.GetSalesByBranch;
+using Application.Features.Sales.Queries.GetSalesByDateRange;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,6 +44,13 @@ namespace RetailERP.API.Controllers
         public async Task<IActionResult> GetByBranch(Guid branchId)
         {
             var result = await _mediator.Send(new GetSalesByBranchQuery(branchId));
+            return HandleResult(result);
+        }
+
+        [HttpGet("date-range")]
+        public async Task<IActionResult> GetByDateRange([FromQuery] DateOnly startDate, [FromQuery] DateOnly endDate)
+        {
+            var result = await _mediator.Send(new GetSalesByDateRangeQuery(startDate, endDate));
             return HandleResult(result);
         }
     }
