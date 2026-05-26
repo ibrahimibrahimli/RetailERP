@@ -19,9 +19,9 @@ public class BranchInventoryConfiguration : IEntityTypeConfiguration<BranchInven
         builder.Property(x => x.IsSelling)
             .IsRequired();
 
-        builder.HasOne(x => x.Product)
+        builder.HasOne(x => x.ProductVariant)
             .WithMany(x => x.BranchInventories)
-            .HasForeignKey(x => x.ProductId)
+            .HasForeignKey(x => x.ProductVariantId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(x => x.Branch)
@@ -39,7 +39,7 @@ public class BranchInventoryConfiguration : IEntityTypeConfiguration<BranchInven
 
         builder.HasIndex(x => new
         {
-            x.ProductId,
+            x.ProductVariantId,
             x.BranchId
         })
         .IsUnique();

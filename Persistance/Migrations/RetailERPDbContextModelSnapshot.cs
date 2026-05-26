@@ -108,7 +108,10 @@ namespace Persistance.Migrations
                     b.Property<int>("MinimumStockLevel")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("ProductId")
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ProductVariantId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Quantity")
@@ -124,7 +127,9 @@ namespace Persistance.Migrations
 
                     b.HasIndex("BranchId");
 
-                    b.HasIndex("ProductId", "BranchId")
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ProductVariantId", "BranchId")
                         .IsUnique();
 
                     b.ToTable("BranchInventories", (string)null);
@@ -231,6 +236,69 @@ namespace Persistance.Migrations
                     b.ToTable("InventoryTransactions", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entities.ProductVariant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Barcode")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("SKU")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Size")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Barcode")
+                        .IsUnique();
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("SKU")
+                        .IsUnique();
+
+                    b.ToTable("ProductVariants", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.Sale", b =>
                 {
                     b.Property<Guid>("Id")
@@ -289,6 +357,10 @@ namespace Persistance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -312,11 +384,22 @@ namespace Persistance.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
+                    b.Property<Guid>("ProductVariantId")
+                        .HasColumnType("uuid");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
+                    b.Property<string>("SKU")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<Guid>("SaleId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Size")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<decimal>("TotalPrice")
                         .HasPrecision(18, 2)
@@ -460,15 +543,19 @@ namespace Persistance.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("RetailERP.Domain.Entities.Product", "Product")
+                    b.HasOne("RetailERP.Domain.Entities.Product", null)
                         .WithMany("BranchInventories")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("Domain.Entities.ProductVariant", "ProductVariant")
+                        .WithMany("BranchInventories")
+                        .HasForeignKey("ProductVariantId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Branch");
 
-                    b.Navigation("Product");
+                    b.Navigation("ProductVariant");
                 });
 
             modelBuilder.Entity("Domain.Entities.Brand", b =>
@@ -491,6 +578,17 @@ namespace Persistance.Migrations
                         .IsRequired();
 
                     b.Navigation("BranchInventory");
+                });
+
+            modelBuilder.Entity("Domain.Entities.ProductVariant", b =>
+                {
+                    b.HasOne("RetailERP.Domain.Entities.Product", "Product")
+                        .WithMany("Variants")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Domain.Entities.Sale", b =>
@@ -543,6 +641,11 @@ namespace Persistance.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("Domain.Entities.ProductVariant", b =>
+                {
+                    b.Navigation("BranchInventories");
+                });
+
             modelBuilder.Entity("Domain.Entities.Sale", b =>
                 {
                     b.Navigation("Items");
@@ -556,6 +659,8 @@ namespace Persistance.Migrations
             modelBuilder.Entity("RetailERP.Domain.Entities.Product", b =>
                 {
                     b.Navigation("BranchInventories");
+
+                    b.Navigation("Variants");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,15 +1,14 @@
 ﻿using Domain.Common;
 using Domain.Enums;
-using RetailERP.Domain.Entities;
 
 namespace Domain.Entities
 {
     public class BranchInventory : BaseEntity
     {
         private readonly List<InventoryTransaction> _transactions = [];
-        public Guid ProductId { get; private set; }
+        public Guid ProductVariantId { get; private set; }
 
-        public Product Product { get; private set; } = null!;
+        public ProductVariant ProductVariant { get; private set; } = null!;
 
         public Guid BranchId { get; private set; }
 
@@ -28,7 +27,7 @@ namespace Domain.Entities
         }
 
         private BranchInventory(
-            Guid productId,
+            Guid productVariantId,
             Guid branchId,
             int quantity,
             int minimumStockLevel)
@@ -37,7 +36,7 @@ namespace Domain.Entities
 
             SetMinimumStockLevel(minimumStockLevel);
 
-            ProductId = productId;
+            ProductVariantId = productVariantId;
 
             BranchId = branchId;
 

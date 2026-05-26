@@ -5,6 +5,9 @@ namespace RetailERP.Domain.Entities;
 
 public class Product : BaseEntity
 {
+    private readonly List<BranchInventory> _branchInventories = [];
+
+    private readonly List<ProductVariant> _variants = [];
     public string Name { get; private set; }
 
     public string Description { get; private set; }
@@ -19,19 +22,14 @@ public class Product : BaseEntity
 
     public Brand Brand { get; private set; } = null!;
 
-    private readonly List<BranchInventory> _branchInventories = [];
     public IReadOnlyCollection<BranchInventory> BranchInventories => _branchInventories.AsReadOnly();
+    public IReadOnlyCollection<ProductVariant> Variants => _variants;
 
     private Product()
     {
     }
 
-    private Product(
-        string name,
-        string description,
-        decimal price,
-        string barcode,
-        Guid brandId)
+    private Product(string name, string description, decimal price, string barcode, Guid brandId)
     {
         SetName(name);
 
@@ -46,12 +44,7 @@ public class Product : BaseEntity
         IsActive = true;
     }
 
-    public static Product Create(
-        string name,
-        string description,
-        decimal price,
-        string barcode,
-        Guid brandId)
+    public static Product Create(string name, string description, decimal price, string barcode, Guid brandId)
     {
         return new Product(
             name,
@@ -102,6 +95,13 @@ public class Product : BaseEntity
 
         SetUpdatedTime();
     }
+    
+    public void AddVariants(string color, string size, string sku, string barcode)
+    {
+        ProductVariant variant = ProductVariant.Create(Id, color, size, sku, barcode);
+        _variants.Add(variant);
+        SetUpdatedTime();
+    }
 
     private void SetName(string name)
     {
@@ -136,6 +136,11 @@ public class Product : BaseEntity
         Price = price;
     }
 
+    /// <summary>
+    ///SetBarcode Deprecated, we using at Create behavior in ProductVariant entity now
+    /// </summary>
+    /// <param name="barcode"></param>
+    /// <exception cref="ArgumentException"></exception>
     private void SetBarcode(string barcode)
     {
         if (string.IsNullOrWhiteSpace(barcode))

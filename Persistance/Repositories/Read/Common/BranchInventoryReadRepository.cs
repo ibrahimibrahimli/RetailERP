@@ -11,21 +11,21 @@ namespace Persistance.Repositories.Read.Common
         {
         }
 
-        public async Task<bool> ExistsAsync(Guid productId, Guid branchId)
+        public async Task<bool> ExistsAsync(Guid productVariantId, Guid branchId)
         {
             return await Context.BranchInventories
                 .AsNoTracking()
-                .AnyAsync(x =>x.ProductId == productId &&
+                .AnyAsync(x =>x.ProductVariantId == productVariantId &&
                               x.BranchId == branchId &&
                               !x.IsDeleted);
         }
 
-        public async Task<BranchInventory?> GetByProductAndBranchAsync(Guid productId, Guid branchId)
+        public async Task<BranchInventory?> GetByProductAndBranchAsync(Guid productVariantId, Guid branchId)
         {
             return await Context.BranchInventories
                 .Include(x => x.Transactions)
                 .FirstOrDefaultAsync(x =>
-                x.ProductId == productId &&
+                x.ProductVariantId == productVariantId &&
                 x.BranchId == branchId &&
                 !x.IsDeleted);
         }
@@ -34,7 +34,8 @@ namespace Persistance.Repositories.Read.Common
         {
             return await Context.BranchInventories
                 .AsNoTracking()
-                .Include(x => x.Product)
+                .Include(x => x.ProductVariant)
+                .ThenInclude(x => x.Product)
                 .Include(x => x.Branch)
                 .Where(x => x.Quantity <= x.MinimumStockLevel)
                 .ToListAsync();

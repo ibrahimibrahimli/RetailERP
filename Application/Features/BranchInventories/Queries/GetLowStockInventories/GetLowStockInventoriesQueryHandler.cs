@@ -22,8 +22,8 @@ namespace Application.Features.BranchInventories.Queries.GetLowStockInventories
 
             List<LowStockDto> response = inventories
                 .Select(x => new LowStockDto(
-                    x.ProductId,
-                    x.Product.Name,
+                    x.ProductVariantId,
+                    x.ProductVariant.Product.Name,
                     x.BranchId,
                     x.Branch.Name,
                     x.Quantity,

@@ -11,6 +11,10 @@ namespace Domain.Entities
         public decimal UnitPrice { get; private set; }
         public int Quantity { get; private set; }
         public decimal TotalPrice { get; private set; }
+        public Guid ProductVariantId { get; private set; }
+        public string Color{ get; private set; }
+        public string Size{ get; private set; }
+        public string SKU{ get; private set; }
 
 
         private SaleItem() { }
