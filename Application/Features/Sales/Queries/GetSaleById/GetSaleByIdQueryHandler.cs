@@ -28,7 +28,7 @@ namespace Application.Features.Sales.Queries.GetSaleById
                 sale.SaleDate,
                 sale.Items.Select(x =>
                                   new SaleItemDto(
-                                      x.ProductId,
+                                      x.ProductVariantId,
                                       x.ProductName,
                                       x.UnitPrice,
                                       x.Quantity,

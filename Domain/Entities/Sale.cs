@@ -30,10 +30,10 @@ namespace Domain.Entities
             return new Sale(branchId, InvoiceNumber, paymentMethod);
         }
 
-        public void AddItem(Guid productId, string productName, decimal unitPrice, int quantity)
+        public void AddItem(Guid productVariantId, string productName, decimal unitPrice, int quantity)
         {
             SaleItem item = SaleItem.Create(
-                productId,
+                productVariantId,
                 productName,
                 unitPrice,
                 quantity);

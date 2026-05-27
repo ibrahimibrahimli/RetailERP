@@ -8,23 +8,23 @@ namespace Application.Features.Sales.Commands.CreateSale
 {
     public sealed class CreateSaleCommandHandler : IRequestHandler<CreateSaleCommand, Result<Guid>>
     {
-        private readonly IProductReadRepository _productReadRepository;
+        private readonly IProductVariantReadRepository _productVariantReadRepository;
         private readonly IBranchInventoryReadRepository _branchInventoryReadRepository;
         private readonly IBranchInventoryWriteRepository _branchInventoryWriteRepository;
         private readonly ISaleWriteRepository _saleWriteRepository;
         private readonly IInventoryTransactionWriteRepository _inventoryTransactionWriteRepository;
         public CreateSaleCommandHandler(
-            IProductReadRepository productReadRepository,
             IBranchInventoryReadRepository branchInventoryReadRepository,
             IBranchInventoryWriteRepository branchInventoryWriteRepository,
             ISaleWriteRepository saleWriteRepository,
-            IInventoryTransactionWriteRepository inventoryTransactionWriteRepository)
+            IInventoryTransactionWriteRepository inventoryTransactionWriteRepository,
+            IProductVariantReadRepository productVariantReadRepository)
         {
-            _productReadRepository = productReadRepository;
             _branchInventoryReadRepository = branchInventoryReadRepository;
             _branchInventoryWriteRepository = branchInventoryWriteRepository;
             _saleWriteRepository = saleWriteRepository;
             _inventoryTransactionWriteRepository = inventoryTransactionWriteRepository;
+            _productVariantReadRepository = productVariantReadRepository;
         }
 
         public async Task<Result<Guid>> Handle(CreateSaleCommand request, CancellationToken cancellationToken)
@@ -34,11 +34,11 @@ namespace Application.Features.Sales.Commands.CreateSale
 
             foreach(var item in request.Items )
             {
-                var product = await _productReadRepository.GetByIdAsync(item.ProductId);
-                if (product is null)
+                var variant = await _productVariantReadRepository.GetByIdAsync(item.ProductVariantId);
+                if (variant is null)
                     return Result<Guid>.Failure("Product not found");
 
-                var inventory = await _branchInventoryReadRepository.GetByProductAndBranchAsync(item.ProductId, request.BranchId);
+                var inventory = await _branchInventoryReadRepository.GetByProductAndBranchAsync(item.ProductVariantId, request.BranchId);
                 if (inventory is null)
                     return Result<Guid>.Failure("Inventory not fount");
 
@@ -48,9 +48,9 @@ namespace Application.Features.Sales.Commands.CreateSale
 
                 _branchInventoryWriteRepository.Update(inventory);
 
-                sale.AddItem(product.Id,
-                    product.Name,
-                    product.Price,
+                sale.AddItem(variant.Id,
+                    variant.Product.Name,
+                    variant.Product.Price,
                     item.Quantity);
             }
 

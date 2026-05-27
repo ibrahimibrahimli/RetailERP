@@ -6,7 +6,6 @@ namespace Domain.Entities
     {
         public Guid SaleId { get; private set; }
         public Sale Sale { get; private set; } = null!;
-        public Guid ProductId { get; private set; }
         public string ProductName { get; private set; }
         public decimal UnitPrice { get; private set; }
         public int Quantity { get; private set; }
@@ -19,24 +18,24 @@ namespace Domain.Entities
 
         private SaleItem() { }
 
-        private SaleItem(Guid productId,
+        private SaleItem(Guid productVariantId,
             string productName,
             decimal unitPrice,
             int quantity)
         {
-            ProductId = productId;
+            ProductVariantId = productVariantId;
             ProductName = productName;
             SetUnitPrice(unitPrice);
             SetQuantity(quantity);
             CalculateTotalPrice();
         }
 
-        public static SaleItem Create(Guid productId,
+        public static SaleItem Create(Guid productVariantId,
             string productName,
             decimal unitPrice,
             int quantity)
         {
-            return new SaleItem(productId, productName, unitPrice, quantity);
+            return new SaleItem(productVariantId, productName, unitPrice, quantity);
         }
 
         private void SetUnitPrice(decimal price)

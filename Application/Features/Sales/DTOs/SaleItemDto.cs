@@ -1,7 +1,7 @@
 ﻿namespace Application.Features.Sales.DTOs
 {
     public sealed record SaleItemDto(
-        Guid ProductId,
+        Guid ProductVariantId,
         string ProductName,
         decimal UnitPrice,
         int Quantity,

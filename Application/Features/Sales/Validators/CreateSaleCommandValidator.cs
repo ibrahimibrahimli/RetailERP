@@ -16,7 +16,7 @@ namespace Application.Features.Sales.Validators
             RuleForEach(x => x.Items)
                 .ChildRules(item =>
                 {
-                    item.RuleFor(x => x.ProductId)
+                    item.RuleFor(x => x.ProductVariantId)
                     .NotEmpty();
 
                     item.RuleFor(x => x.Quantity)
