@@ -50,6 +50,9 @@ namespace Application.Features.Sales.Commands.CreateSale
 
                 sale.AddItem(variant.Id,
                     variant.Product.Name,
+                    variant.Color,
+                    variant.Size,
+                    variant.SKU,
                     variant.Product.Price,
                     item.Quantity);
             }

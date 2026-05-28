@@ -21,10 +21,16 @@ namespace Domain.Entities
         private SaleItem(Guid productVariantId,
             string productName,
             decimal unitPrice,
-            int quantity)
+            int quantity,
+            string color,
+            string size,
+            string sku)
         {
             ProductVariantId = productVariantId;
             ProductName = productName;
+            Color = color;
+            Size = size;
+            SKU = sku;
             SetUnitPrice(unitPrice);
             SetQuantity(quantity);
             CalculateTotalPrice();
@@ -32,10 +38,13 @@ namespace Domain.Entities
 
         public static SaleItem Create(Guid productVariantId,
             string productName,
+            string color,
+            string size,
+            string sku,
             decimal unitPrice,
             int quantity)
         {
-            return new SaleItem(productVariantId, productName, unitPrice, quantity);
+            return new SaleItem(productVariantId, productName, unitPrice, quantity, color, size, sku);
         }
 
         private void SetUnitPrice(decimal price)

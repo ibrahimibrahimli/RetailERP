@@ -30,6 +30,9 @@ namespace Application.Features.Sales.Queries.GetSaleById
                                   new SaleItemDto(
                                       x.ProductVariantId,
                                       x.ProductName,
+                                      x.Color,
+                                      x.Size,
+                                      x.SKU,
                                       x.UnitPrice,
                                       x.Quantity,
                                       x.TotalPrice)).ToList());
