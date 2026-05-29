@@ -96,11 +96,12 @@ public class Product : BaseEntity
         SetUpdatedTime();
     }
     
-    public void AddVariants(string color, string size, string sku, string barcode)
+    public ProductVariant AddVariants(string color, string size, string sku, string barcode)
     {
         ProductVariant variant = ProductVariant.Create(Id, color, size, sku, barcode);
         _variants.Add(variant);
         SetUpdatedTime();
+        return variant;
     }
 
     private void SetName(string name)

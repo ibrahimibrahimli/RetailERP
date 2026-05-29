@@ -58,7 +58,7 @@ namespace Domain.Entities
 
         private void SetBarcode(string barcode)
         {
-            if (!string.IsNullOrWhiteSpace(barcode))
+            if (string.IsNullOrWhiteSpace(barcode))
                 throw new ArgumentNullException("Barcode cannot be empty");
 
             Barcode = barcode.Trim();
