@@ -80,7 +80,7 @@ namespace Domain.Entities
 
             Quantity -= quantity;
 
-            InventoryTransaction transaction = InventoryTransaction.Create(Id, type, quantity, description);
+            InventoryTransaction transaction = InventoryTransaction.Create(Id, type, quantity, description, source, referenceCode);
 
             AddTransaction(transaction);
             SetUpdatedTime();

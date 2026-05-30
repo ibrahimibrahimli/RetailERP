@@ -40,5 +40,15 @@ namespace Persistance.Repositories.Read.Common
                 .Where(x => x.Quantity <= x.MinimumStockLevel)
                 .ToListAsync();
         }
+
+        public async Task<List<BranchInventory>> GetProductVariantAsync(Guid productVariantId)
+        {
+            return await Context.BranchInventories
+                .AsNoTracking()
+                .Include(x => x.Branch)
+                .Where(x => x.ProductVariantId == productVariantId 
+                && x.Quantity > 0
+                && !x.IsDeleted).ToListAsync();
+        }
     }
 }

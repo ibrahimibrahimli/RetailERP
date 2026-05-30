@@ -21,7 +21,7 @@ namespace Application.Features.BranchInventories.Commands.AddStock
 
         public async Task<Result> Handle(AddStockCommand request, CancellationToken cancellationToken)
         {
-            var inventory = await _inventoryReadRepository.GetByProductAndBranchAsync(request.ProductId, request.BranchId);
+            var inventory = await _inventoryReadRepository.GetByProductAndBranchAsync(request.ProductVariantId, request.BranchId);
             if (inventory is null)
                 return Result.Failure("Inventory record not found");
 

@@ -4,7 +4,7 @@ using MediatR;
 namespace Application.Features.BranchInventories.Commands.AddStock
 {
     public sealed record AddStockCommand(
-        Guid ProductId,
+        Guid ProductVariantId,
         Guid BranchId,
         int Quantity) : IRequest<Result>;
 }

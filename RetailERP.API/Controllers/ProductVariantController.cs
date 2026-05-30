@@ -1,4 +1,5 @@
-﻿using Application.Features.ProductVariants.Commands.CreateProductVariant;
+﻿using Application.Features.BranchInventories.Queries.GetProductVariantAvailability;
+using Application.Features.ProductVariants.Commands.CreateProductVariant;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,21 @@ namespace RetailERP.API.Controllers
         {
             var result = await _mediator.Send(command);
             return HandleResult(result);
+        }
+
+        [HttpGet("{id:guid}/availability")]
+        public async Task<IActionResult> GetAvailability(Guid id)
+        {
+
+            //return Ok(id);
+            var result = await _mediator.Send(new GetProductVariantAvailabilityQuery(id));
+            return HandleResult(result);
+        }
+
+        [HttpGet("test")]
+        public IActionResult Test()
+        {
+            return Ok("working");
         }
     }
 }
