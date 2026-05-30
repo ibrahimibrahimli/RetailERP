@@ -1,15 +1,15 @@
 # RetailERP
-# RetailERP
 
 Modern Retail ERP backend project built with **.NET 9**, **Clean Architecture**, **CQRS**, and **Domain-Driven Design principles**.
 
 This project is being developed as a real-world retail ERP system focused on:
 
-* maintainable architecture
-* scalable domain modeling
-* inventory management
-* branch operations
-* clean backend engineering practices
+* Maintainable architecture
+* Scalable domain modeling
+* Inventory management
+* Sales operations
+* Branch management
+* Clean backend engineering practices
 
 ---
 
@@ -44,10 +44,10 @@ src/
 
 Responsibilities are separated into different layers:
 
-* Domain → business rules and entities
-* Application → use cases and CQRS flows
+* Domain → Business rules and entities
+* Application → Use cases and CQRS flows
 * Persistence → EF Core and database access
-* API → controllers and HTTP layer
+* API → Controllers and HTTP layer
 
 ---
 
@@ -55,19 +55,29 @@ Responsibilities are separated into different layers:
 
 Read and write operations are separated.
 
-Example:
+### Commands
 
 ```text
-Commands
- ├── CreateProduct
- ├── AddStock
- ├── TransferStock
- └── SellProduct
+CreateBrand
+CreateBranch
+CreateProduct
+CreateProductVariant
+CreateSale
 
-Queries
- ├── GetAllBrands
- ├── GetLowStockInventories
- └── GetAllSubCompanies
+AddStock
+TransferStock
+```
+
+### Queries
+
+```text
+GetAllBrands
+GetAllSales
+GetSalesByBranch
+GetSalesByDateRange
+
+GetLowStockInventories
+GetProductVariantAvailability
 ```
 
 ---
@@ -79,9 +89,15 @@ Business behavior lives inside entities instead of services.
 Example:
 
 ```csharp
-inventory.IncreaseStock(quantity);
-inventory.DecreaseStock(quantity);
-product.UpdatePrice(price);
+inventory.AddStock(quantity, referenceCode);
+
+inventory.TransferOut(
+    quantity,
+    referenceCode);
+
+inventory.SellProduct(
+    quantity,
+    referenceCode);
 ```
 
 The goal is to keep business rules protected inside the domain layer.
@@ -94,10 +110,12 @@ Each feature is organized independently.
 
 ```text
 Features/
- ├── Products/
  ├── Brands/
  ├── Branches/
- └── BranchInventories/
+ ├── Products/
+ ├── ProductVariants/
+ ├── BranchInventories/
+ └── Sales/
 ```
 
 ---
@@ -114,12 +132,20 @@ Branch
 Brand
    ↓
 Product
+      ↓
+ProductVariant
+      ↓
+BranchInventory
+             ↓
+InventoryTransaction
 
-Product
+Branch
    ↓
 BranchInventory
+
+Sale
    ↓
-Branch
+SaleItem
 ```
 
 ---
@@ -150,7 +176,6 @@ Branch
 
 * Create Branch
 * Brand ↔ Branch relationship
-* Composite business constraints
 * Branch activation structure
 
 ---
@@ -158,61 +183,163 @@ Branch
 ## Product Catalog
 
 * Create Product
-* Barcode-based business identity
 * Brand ↔ Product relationship
 * Product catalog foundation
 
 ---
 
+## Product Variant Management
+
+Implemented SKU-based retail product modeling.
+
+### Features
+
+* Create Product Variant
+* Color support
+* Size support
+* SKU support
+* Barcode support
+
+### Example
+
+```text
+Nike Air Max 90
+ ├── Black / 41
+ ├── Black / 42
+ ├── White / 41
+ └── White / 42
+```
+
+### Domain Model
+
+```text
+Product
+   ↓
+ProductVariant
+```
+
+---
+
 ## Branch Inventory Management
 
-Implemented retail inventory operations:
+Implemented inventory management using product variants.
 
 ### Inventory Activation
 
 ```text
-Product + Branch → BranchInventory
+ProductVariant + Branch
+            ↓
+     BranchInventory
 ```
 
 ### Stock Operations
 
 * Add Stock
-* Sell Product
 * Transfer Stock Between Branches
 
 ### Inventory Monitoring
 
-* Low stock query system
-* Minimum stock level tracking
+* Low Stock Query
+* Minimum Stock Level Tracking
+* Variant Availability Across Branches
 
 ---
 
-# Inventory Modeling Approach
+## Inventory Transactions
 
-The project separates:
+Implemented inventory audit trail.
 
-## Catalog Data
+### Supported Transaction Types
+
+* Add Stock
+* Transfer In
+* Transfer Out
+* Sale
+
+### Features
+
+* Reference Code Tracking
+* Inventory History
+* Audit Trail
+* Operational Traceability
+
+---
+
+## Sales Management
+
+Implemented complete sales workflow.
+
+### Features
+
+* Create Sale
+* Multi-item Sales
+* Invoice Number Generation
+* Payment Method Support
+* Inventory Integration
+
+### Sales Flow
 
 ```text
-Product
+Sale
+   ↓
+SaleItem
+   ↓
+Inventory Decrease
+   ↓
+InventoryTransaction
 ```
 
-from:
+---
 
-## Operational Inventory State
+## Sale Item Snapshots
+
+Historical sales information is stored as immutable snapshots.
+
+### Stored Data
+
+* Product Name
+* Color
+* Size
+* SKU
+* Unit Price
+
+This ensures historical invoices remain unchanged even if product data changes later.
+
+---
+
+## Sales Reporting
+
+Implemented reporting queries for operational analytics.
+
+### Available Reports
+
+* Get All Sales
+* Get Sale By Id
+* Get Sales By Branch
+* Get Sales By Date Range
+
+---
+
+## Variant Availability
+
+Implemented cross-branch variant availability lookup.
+
+### Example
 
 ```text
-BranchInventory
+Nike Air Max 90
+Black / 41
 ```
 
-This allows:
+Availability:
 
-* same product in multiple branches
-* different stock levels per branch
-* branch-specific selling state
-* future warehouse support
-* transfer operations
-* inventory analytics
+```text
+Podgorica → 10
+Budva     → 4
+Bar       → 2
+```
+
+This allows store employees to check stock availability across branches.
 
 ---
 
@@ -238,7 +365,9 @@ Example:
 
 ```csharp
 Result.Success();
-Result.Failure("Insufficient stock.");
+
+Result.Failure(
+    "Insufficient stock.");
 ```
 
 ---
@@ -258,25 +387,50 @@ Result.Failure("Insufficient stock.");
 
 * CQRS
 * Repository Pattern
-* Result Pattern
-* Rich Domain Model
-* Vertical Slice Architecture
 * Unit of Work
+* Result Pattern
 * DTO Pattern
 * Read Model Pattern
+* Rich Domain Model
+* Vertical Slice Architecture
+* Aggregate Root Pattern
 * Soft Delete Pattern
 * Business Key Pattern
 
 ---
 
+# Design Principles
+
+* SOLID
+* Separation of Concerns
+* Encapsulation
+* Single Source of Truth
+* Ubiquitous Language
+* Transactional Consistency
+* Historical Snapshot Modeling
+
+---
+
 # Current Features
 
-## Inventory Operations
+## Inventory
 
-* stock increase
-* stock deduction
-* branch transfer
-* low stock monitoring
+* Inventory activation
+* Stock increase
+* Stock transfer
+* Low stock monitoring
+* Inventory transaction tracking
+* Variant availability search
+
+---
+
+## Sales
+
+* Sales workflow
+* Invoice generation
+* Sales history
+* Branch sales reporting
+* Date range sales reporting
 
 ---
 
@@ -284,16 +438,18 @@ Result.Failure("Insufficient stock.");
 
 The project will continue evolving with:
 
-* Sales module
-* Order management
-* Warehouse management
-* Employee management
-* Payroll system
-* Reporting & analytics
-* Notifications
-* Authentication & authorization
-* Role & permission management
-* Audit logging
+* Employee Management
+* Employee-Based Sales Tracking
+* Bonus System
+* Advanced Product Search
+* Top Selling Products Reports
+* Inventory Valuation Reports
+* Supplier Management
+* Purchase Management
+* Warehouse Management
+* Authentication & Authorization
+* Role & Permission Management
+* Audit Logging
 
 ---
 
@@ -301,11 +457,11 @@ The project will continue evolving with:
 
 This project is being developed to:
 
-* practice enterprise backend architecture
-* understand real-world ERP domain modeling
-* improve Clean Architecture knowledge
-* learn scalable system design
-* build production-level backend engineering skills
+* Practice enterprise backend architecture
+* Understand real-world ERP domain modeling
+* Improve Clean Architecture knowledge
+* Learn scalable system design
+* Build production-level backend engineering skills
 
 ---
 
@@ -314,8 +470,13 @@ This project is being developed to:
 Current state:
 
 ```text
-Retail catalog and inventory foundation completed.
-Core operational inventory workflows are working.
+Retail catalog completed.
+Product variant system completed.
+Inventory management completed.
+Sales management completed.
+Sales reporting completed.
+Cross-branch variant availability completed.
+Inventory audit trail completed.
 ```
 
-The project is actively evolving feature by feature.
+The project is actively evolving feature by feature following real-world ERP requirements and domain-driven design practices.
