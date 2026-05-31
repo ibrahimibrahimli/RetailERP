@@ -52,7 +52,7 @@ namespace Domain.Entities
             if (string.IsNullOrEmpty(lastName))
                 throw new ArgumentNullException("Last name cannot be empty");
 
-            FirstName = lastName.Trim();
+            LastName = lastName.Trim();
         }
 
         private void SetEmployeeCode(string employeeCode)
@@ -60,7 +60,7 @@ namespace Domain.Entities
             if (string.IsNullOrEmpty(employeeCode))
                 throw new ArgumentNullException("First name cannot be empty");
 
-            FirstName = employeeCode.Trim();
+            EmployeeCode = employeeCode.Trim();
         }
     }
 }
