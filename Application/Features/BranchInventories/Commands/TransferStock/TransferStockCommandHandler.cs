@@ -20,11 +20,11 @@ namespace Application.Features.BranchInventories.Commands.TransferStock
 
         public async Task<Result> Handle(TransferStockCommand request, CancellationToken cancellationToken)
         {
-            var sourceInventory = await _branchInventoryReadRepository.GetByProductAndBranchAsync(request.ProductId, request.FromBranchId);
+            var sourceInventory = await _branchInventoryReadRepository.GetByProductAndBranchAsync(request.ProductVariantId, request.FromBranchId);
             if (sourceInventory == null)
                 return Result.Failure("Source inventory is not found");
 
-            var destinationInventory = await _branchInventoryReadRepository.GetByProductAndBranchAsync(request.ProductId, request.ToBranchId);
+            var destinationInventory = await _branchInventoryReadRepository.GetByProductAndBranchAsync(request.ProductVariantId, request.ToBranchId);
             if (destinationInventory == null)
                 return Result.Failure("Destination inventory is not found");
 

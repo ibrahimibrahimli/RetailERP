@@ -7,7 +7,7 @@ namespace Application.Features.BranchInventories.Validators
     {
         public CreateBranchInventoryCommandValidator()
         {
-            RuleFor(x => x.ProductId)
+            RuleFor(x => x.ProductVariantId)
             .NotEmpty();
 
             RuleFor(x => x.BranchId)

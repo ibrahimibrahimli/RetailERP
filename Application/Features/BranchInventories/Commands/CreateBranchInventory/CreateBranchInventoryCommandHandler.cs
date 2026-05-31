@@ -19,12 +19,12 @@ namespace Application.Features.BranchInventories.Commands.CreateBranchInventory
 
         public async Task<Result<Guid>> Handle(CreateBranchInventoryCommand request, CancellationToken cancellationToken)
         {
-            bool isExists = await _inventoryReadRepository.ExistsAsync(request.ProductId, request.BranchId);
+            bool isExists = await _inventoryReadRepository.ExistsAsync(request.ProductVariantId, request.BranchId);
             if (isExists)
                 return Result<Guid>.Failure("Inventory already exists fro this branch");
 
             BranchInventory inventory = BranchInventory.Create(
-                request.ProductId,
+                request.ProductVariantId,
                 request.BranchId,
                 request.InitialQuantity,
                 request.MinimumStockLevel);
