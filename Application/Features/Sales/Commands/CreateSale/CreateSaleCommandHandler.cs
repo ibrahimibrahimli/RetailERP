@@ -28,7 +28,7 @@ namespace Application.Features.Sales.Commands.CreateSale
         }
 
         public async Task<Result<Guid>> Handle(CreateSaleCommand request, CancellationToken cancellationToken)
-        {
+            {
             string invoiceNumber = $"Sale-{Guid.NewGuid().ToString()[..8]}";
             var sale = Sale.Create(request.BranchId, invoiceNumber, request.PaymentMethod);
 

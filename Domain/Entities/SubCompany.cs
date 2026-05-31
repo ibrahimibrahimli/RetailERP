@@ -5,8 +5,8 @@ namespace Domain.Entities
     public class SubCompany : BaseEntity
     {
         private readonly List<Brand> _brands = [];
-        public string Name { get; set; } = null;
-        public bool IsActive { get; set; } = true;
+        public string Name { get; private set; } = null;
+        public bool IsActive { get; private set; } = true;
 
         public IReadOnlyCollection<Brand> Brands => _brands.AsReadOnly();
 

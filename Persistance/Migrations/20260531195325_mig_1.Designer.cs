@@ -12,8 +12,8 @@ using Persistance.Context;
 namespace Persistance.Migrations
 {
     [DbContext(typeof(RetailERPDbContext))]
-    [Migration("20260529205920_mig_2")]
-    partial class mig_2
+    [Migration("20260531195325_mig_1")]
+    partial class mig_1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -183,6 +183,64 @@ namespace Persistance.Migrations
                     b.ToTable("Brands", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.Entities.Employee", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BranchId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("EmployeeCode")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
+
+                    b.HasIndex("EmployeeCode")
+                        .IsUnique();
+
+                    b.ToTable("Employees", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.InventoryTransaction", b =>
                 {
                     b.Property<Guid>("Id")
@@ -323,6 +381,9 @@ namespace Persistance.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("text");
 
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("InvoiceNumber")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -350,6 +411,8 @@ namespace Persistance.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BranchId");
+
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("Sales", (string)null);
                 });
@@ -569,6 +632,17 @@ namespace Persistance.Migrations
                     b.Navigation("SubCompany");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Employee", b =>
+                {
+                    b.HasOne("Domain.Entities.Branch", "Branch")
+                        .WithMany("Employees")
+                        .HasForeignKey("BranchId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Branch");
+                });
+
             modelBuilder.Entity("Domain.Entities.InventoryTransaction", b =>
                 {
                     b.HasOne("Domain.Entities.BranchInventory", "BranchInventory")
@@ -599,7 +673,15 @@ namespace Persistance.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Domain.Entities.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Branch");
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("Domain.Entities.SaleItem", b =>
@@ -627,6 +709,8 @@ namespace Persistance.Migrations
             modelBuilder.Entity("Domain.Entities.Branch", b =>
                 {
                     b.Navigation("BranchInventories");
+
+                    b.Navigation("Employees");
                 });
 
             modelBuilder.Entity("Domain.Entities.BranchInventory", b =>

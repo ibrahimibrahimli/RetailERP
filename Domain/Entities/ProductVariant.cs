@@ -8,12 +8,12 @@ namespace Domain.Entities
         private readonly List<BranchInventory> _branchInventories = [];
 
 
-        public Guid ProductId { get; set; }
-        public Product Product { get; set; } = null!;
-        public string Color { get; set; } = null!;
-        public string Size { get; set; } = null!;
-        public string SKU { get; set; } = null!;
-        public string Barcode { get; set; } = null!;
+        public Guid ProductId { get; private set; }
+        public Product Product { get; private set; } = null!;
+        public string Color { get; private set; } = null!;
+        public string Size { get; private set; } = null!;
+        public string SKU { get; private set; } = null!;
+        public string Barcode { get; private set; } = null!;
         public IReadOnlyCollection<BranchInventory> BranchInventories => _branchInventories;
         private ProductVariant() { }
 

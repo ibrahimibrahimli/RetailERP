@@ -8,6 +8,8 @@ namespace Domain.Entities
         private readonly List<SaleItem> _items = [];
         public IReadOnlyCollection<SaleItem> Items => _items.AsReadOnly();
 
+        public Guid EmployeeId { get; private set; }
+        public Employee Employee { get; private set; } = null!;
         public Guid BranchId { get; private set; }
         public Branch Branch { get; private set; } = null!;
         public string InvoiceNumber { get; private set; } = null!;

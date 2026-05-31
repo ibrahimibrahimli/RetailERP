@@ -4,6 +4,8 @@ namespace Domain.Entities
 {
     public class Branch : BaseEntity
     {
+        private readonly List<BranchInventory> _branchInventories = [];
+        private readonly List<Employee> _employees = [];
         public string Name { get; private set; }
         public string Address { get; private set; }
         public string PhoneNumber { get; private set; }
@@ -11,7 +13,7 @@ namespace Domain.Entities
         public Guid BrandId { get; private set; }
         public Brand Brand { get; private set; } = null!;
 
-        private readonly List<BranchInventory> _branchInventories = [];
+        public IReadOnlyCollection<Employee> Employees => _employees.AsReadOnly();
         public IReadOnlyCollection<BranchInventory> BranchInventories => _branchInventories.AsReadOnly();
 
         private Branch()
