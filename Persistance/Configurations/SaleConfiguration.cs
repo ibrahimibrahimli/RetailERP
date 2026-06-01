@@ -38,6 +38,11 @@ namespace Persistance.Configurations
             builder.Navigation(x => x.Items)
                 .UsePropertyAccessMode(
                     PropertyAccessMode.Field);
+
+            builder.HasOne(x => x.Employee)
+                .WithMany()
+                .HasForeignKey(x => x.EmployeeId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

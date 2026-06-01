@@ -19,17 +19,18 @@ namespace Domain.Entities
 
         private Sale() { }
 
-        private Sale(Guid branchId, string invoiceNumber, PaymentMethod paymentMethod)
+        private Sale(Guid branchId, Guid employeeId, string invoiceNumber, PaymentMethod paymentMethod)
         {
             BranchId = branchId;
+            EmployeeId = employeeId;
             InvoiceNumber = invoiceNumber;
             PaymentMethod = paymentMethod;
             SaleDate = DateTime.UtcNow;
         }
 
-        public static Sale Create(Guid branchId, string InvoiceNumber, PaymentMethod paymentMethod)
+        public static Sale Create(Guid branchId, Guid employeeId, string InvoiceNumber, PaymentMethod paymentMethod)
         {
-            return new Sale(branchId, InvoiceNumber, paymentMethod);
+            return new Sale(branchId, employeeId, InvoiceNumber, paymentMethod);
         }
 
         public void AddItem(Guid productVariantId, string productName, string color, string size, string sku, decimal unitPrice, int quantity)

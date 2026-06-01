@@ -13,24 +13,38 @@ namespace Application.Features.Sales.Commands.CreateSale
         private readonly IBranchInventoryWriteRepository _branchInventoryWriteRepository;
         private readonly ISaleWriteRepository _saleWriteRepository;
         private readonly IInventoryTransactionWriteRepository _inventoryTransactionWriteRepository;
+        private readonly IEmployeeReadRepository _employeeReadRepository;
         public CreateSaleCommandHandler(
             IBranchInventoryReadRepository branchInventoryReadRepository,
             IBranchInventoryWriteRepository branchInventoryWriteRepository,
             ISaleWriteRepository saleWriteRepository,
             IInventoryTransactionWriteRepository inventoryTransactionWriteRepository,
-            IProductVariantReadRepository productVariantReadRepository)
+            IProductVariantReadRepository productVariantReadRepository,
+            IEmployeeReadRepository employeeReadRepository)
         {
             _branchInventoryReadRepository = branchInventoryReadRepository;
             _branchInventoryWriteRepository = branchInventoryWriteRepository;
             _saleWriteRepository = saleWriteRepository;
             _inventoryTransactionWriteRepository = inventoryTransactionWriteRepository;
             _productVariantReadRepository = productVariantReadRepository;
+            _employeeReadRepository = employeeReadRepository;
         }
 
         public async Task<Result<Guid>> Handle(CreateSaleCommand request, CancellationToken cancellationToken)
             {
             string invoiceNumber = $"Sale-{Guid.NewGuid().ToString()[..8]}";
-            var sale = Sale.Create(request.BranchId, invoiceNumber, request.PaymentMethod);
+
+            var employee = await _employeeReadRepository.GetByIdAsync(request.EmployeeId);
+            if (employee == null)
+                return Result<Guid>.Failure("Employee not found");
+
+            if (employee.BranchId != request.BranchId)
+                return Result<Guid>.Failure("Employee does not belong to this branch");
+
+            if (!employee.IsActive)
+                return Result<Guid>.Failure("Employee is not active");
+
+            var sale = Sale.Create(request.BranchId, request.EmployeeId, invoiceNumber, request.PaymentMethod);
 
             foreach(var item in request.Items )
             {
