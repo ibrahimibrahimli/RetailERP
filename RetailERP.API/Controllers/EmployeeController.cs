@@ -1,4 +1,5 @@
 ﻿using Application.Features.Employees.Commands;
+using Application.Features.Sales.Queries.GetSalesByEmployeeQuery;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,13 @@ namespace RetailERP.API.Controllers
         public async Task<IActionResult> Create(CreateEmployeeCommand command)
         {
             var result = await _mediator.Send(command);
+            return HandleResult(result);
+        }
+
+        [HttpGet("{id:guid}/sales")]
+        public async Task<IActionResult> GetSales(Guid id)
+        {
+            var result = await _mediator.Send(new GetSalesByEmployeeQuery(id));
             return HandleResult(result);
         }
     }

@@ -8,5 +8,6 @@ namespace Application.Interfaces.Repositories.Read.Common
         Task<List<Sale>> GetAllSalesAsync();
         Task<List<Sale>> GetSalesByBranchAsync(Guid branchId);
         Task<List<Sale>> GetSalesByDateRangeAsync(DateTime startDate, DateTime endDate);
+        Task<List<Sale>> GetByEmployeeAsync(Guid employeeId);
     }
 }

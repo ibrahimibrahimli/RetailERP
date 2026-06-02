@@ -19,6 +19,16 @@ namespace Persistance.Repositories.Read.Common
                 .ToListAsync();
         }
 
+        public async Task<List<Sale>> GetByEmployeeAsync(Guid employeeId)
+        {
+            return await Context.Sales
+                .AsNoTracking()
+                .Include(x => x.Items)
+                .Where(x =>  x.EmployeeId == employeeId && !x.IsDeleted)
+                .OrderByDescending (x => x.SaleDate)
+                .ToListAsync();
+        }
+
         public async Task<Sale?> GetSaleDetailAsync(Guid saleId)
         {
             return await Context.Sales
