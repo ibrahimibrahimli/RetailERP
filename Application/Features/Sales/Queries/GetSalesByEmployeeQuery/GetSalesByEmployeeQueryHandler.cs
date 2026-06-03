@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Features.Sales.Queries.GetSalesByEmployeeQuery
 {
-    public sealed class GetSalesByEmployeeQueryHandler : IRequestHandler<GetSalesByEmployeeQuery, Result<List<EmployeeSalesDto>
+    public sealed class GetSalesByEmployeeQueryHandler : IRequestHandler<GetSalesByEmployeeQuery, Result<List<EmployeeSalesDto>>>
     {
         private readonly ISaleReadRepository _saleReadRepository;
 
