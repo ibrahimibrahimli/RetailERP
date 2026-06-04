@@ -1,4 +1,4 @@
-﻿using Application.Features.Employees.Commands.CreateEmployee;
+﻿using Application.Features.Employees.Commands;
 using FluentValidation;
 
 namespace Application.Features.Employees.Validators

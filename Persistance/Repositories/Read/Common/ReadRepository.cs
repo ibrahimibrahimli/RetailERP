@@ -25,6 +25,7 @@ namespace Persistance.Repositories.Read.Common
         public virtual async Task<T?> GetByIdAsync(Guid id)
         {
             return await Context.Set<T>()
+            .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id && !x.IsDeleted);
         }
 

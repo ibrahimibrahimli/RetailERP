@@ -1,7 +1,7 @@
 ﻿using Application.Common.Results;
 using MediatR;
 
-namespace Application.Features.Employees.Commands.CreateEmployee
+namespace Application.Features.Employees.Commands
 {
     public sealed record CreateEmployeeCommand(
         Guid BranchId,
