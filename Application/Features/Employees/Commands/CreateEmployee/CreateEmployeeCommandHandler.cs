@@ -4,7 +4,7 @@ using Application.Interfaces.Repositories.Write.Common;
 using Domain.Entities;
 using MediatR;
 
-namespace Application.Features.Employees.Commands
+namespace Application.Features.Employees.Commands.CreateEmployee
 {
     public sealed class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeCommand, Result<Guid>>
     {
