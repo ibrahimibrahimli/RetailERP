@@ -16,7 +16,7 @@ namespace Application.Features.Employees.Queries.GetAllEmployees
 
         public async Task<Result<List<EmployeeDto>>> Handle(GetAllEmployeesQuery request, CancellationToken cancellationToken)
         {
-            var employees = await _employeeReadRepository.GetAllByBranch();
+            var employees = await _employeeReadRepository.GetAllByBranchAsync();
             if (employees == null)
                 return Result<List<EmployeeDto>>.Failure("Employee not found");
 
