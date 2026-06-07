@@ -4,5 +4,5 @@ using MediatR;
 
 namespace Application.Features.Employees.Queries.GetTopEmployee
 {
-    public sealed record GetTopEmployeeQuery(int count = 10) : IRequest<Result<List<TopEmployeeDto>>>;
+    public sealed record GetTopEmployeeQuery(int count) : IRequest<Result<List<TopEmployeeDto>>>;
 }

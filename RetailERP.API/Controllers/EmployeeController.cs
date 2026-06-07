@@ -1,6 +1,7 @@
 ﻿using Application.Features.Employees.Commands;
 using Application.Features.Employees.Queries.GetAllEmployees;
 using Application.Features.Employees.Queries.GetEmployeeRevenue;
+using Application.Features.Employees.Queries.GetTopEmployee;
 using Application.Features.Sales.Queries.GetSalesByEmployeeQuery;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +44,13 @@ namespace RetailERP.API.Controllers
         public async Task<IActionResult> GetRevenue(Guid id)
         {
             var result = await _mediator.Send(new GetEmployeeRevenueQuery(id));
+            return HandleResult(result);
+        }
+
+        [HttpGet("top-performers")]
+        public async Task<IActionResult> GetTopEmployees([FromQuery] int count = 10)
+        {
+            var result = await _mediator.Send(new GetTopEmployeeQuery(count));
             return HandleResult(result);
         }
     }
