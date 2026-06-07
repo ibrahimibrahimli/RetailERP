@@ -3,6 +3,7 @@ using Application.Features.Sales.Queries.GetAllSales;
 using Application.Features.Sales.Queries.GetSaleById;
 using Application.Features.Sales.Queries.GetSalesByBranch;
 using Application.Features.Sales.Queries.GetSalesByDateRange;
+using Application.Features.Sales.Queries.GetTopSellingProducts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,6 +52,13 @@ namespace RetailERP.API.Controllers
         public async Task<IActionResult> GetByDateRange([FromQuery] DateOnly startDate, [FromQuery] DateOnly endDate)
         {
             var result = await _mediator.Send(new GetSalesByDateRangeQuery(startDate, endDate));
+            return HandleResult(result);
+        }
+
+        [HttpGet("top-selling-products")]
+        public async Task<IActionResult> GetTopSelling(int count = 10)
+        {
+            var result = await _mediator.Send(new GetTopSellingProductsQuery(count));
             return HandleResult(result);
         }
     }

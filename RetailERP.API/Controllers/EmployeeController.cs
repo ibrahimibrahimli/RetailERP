@@ -45,7 +45,7 @@ namespace RetailERP.API.Controllers
         [HttpPatch("{id:guid}/deactivate")]
         public async Task<IActionResult> Deactivate(Guid id)
         {
-            var result = await _mediator.Send( new DeactivateEmployeeCommand(id));
+            var result = await _mediator.Send(new DeactivateEmployeeCommand(id));
             return HandleResult(result);
         }
 
@@ -53,6 +53,20 @@ namespace RetailERP.API.Controllers
         public async Task<IActionResult> Activate(Guid id)
         {
             var result = await _mediator.Send(new ActivateEmployeeCommand(id));
+            return HandleResult(result);
+        }
+
+        [HttpGet("{id:guid}/revenue")]
+        public async Task<IActionResult> GetRevenue(Guid id)
+        {
+            var result = await _mediator.Send(new GetEmployeeRevenueQuery(id));
+            return HandleResult(result);
+        }
+
+        [HttpGet("top-performers")]
+        public async Task<IActionResult> GetTopEmployees([FromQuery] int count = 10)
+        {
+            var result = await _mediator.Send(new GetTopEmployeeQuery(count));
             return HandleResult(result);
         }
     }
