@@ -1,5 +1,6 @@
 ﻿using Application.Features.Sales.Commands.CreateSale;
 using Application.Features.Sales.Queries.GetAllSales;
+using Application.Features.Sales.Queries.GetRevenueByBranch;
 using Application.Features.Sales.Queries.GetSaleById;
 using Application.Features.Sales.Queries.GetSalesByBranch;
 using Application.Features.Sales.Queries.GetSalesByDateRange;
@@ -59,6 +60,13 @@ namespace RetailERP.API.Controllers
         public async Task<IActionResult> GetTopSelling(int count = 10)
         {
             var result = await _mediator.Send(new GetTopSellingProductsQuery(count));
+            return HandleResult(result);
+        }
+
+        [HttpGet("top-branches")]
+        public async Task<IActionResult> GetTopBranches([FromQuery] int count = 10)
+        {
+            var result = await _mediator.Send(new GetRevenueByBranchQuery(count));
             return HandleResult(result);
         }
     }

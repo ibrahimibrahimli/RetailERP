@@ -30,6 +30,15 @@ namespace Persistance.Repositories.Read.Common
                 .ToListAsync();
         }
 
+        public async Task<List<Sale>> GetRevenueByBranchAsync(int count)
+        {
+            return await Context.Sales
+                .AsNoTracking()
+                .Include(x => x.Branch)
+                .Where(x => !x.IsDeleted)
+                .ToListAsync();
+        }
+
         public async Task<Sale?> GetSaleDetailAsync(Guid saleId)
         {
             return await Context.Sales
@@ -59,40 +68,40 @@ namespace Persistance.Repositories.Read.Common
         public async Task<List<TopSellingProductDto>> GetTopSellingProductAsync(int count)
         {
             var data = await Context.SaleItems
-     .AsNoTracking()
-     .Where(x => !x.IsDeleted)
-     .GroupBy(x => new
-     {
-         x.ProductVariantId,
-         x.ProductName,
-         x.Color,
-         x.Size,
-         x.SKU
-     })
-     .Select(x => new
-     {
-         x.Key.ProductVariantId,
-         x.Key.ProductName,
-         x.Key.Color,
-         x.Key.Size,
-         x.Key.SKU,
-         QuantitySold = x.Sum(i => i.Quantity),
-         Revenue = x.Sum(i => i.TotalPrice)
-     })
-     .OrderByDescending(x => x.QuantitySold)
-     .Take(count)
-     .ToListAsync();
-
-            return data.Select(x =>
-                new TopSellingProductDto(
-                    x.ProductVariantId,
-                    x.ProductName,
-                    x.Color,
-                    x.Size,
-                    x.SKU,
-                    x.QuantitySold,
-                    x.Revenue))
-                .ToList();
+                  .AsNoTracking()
+                  .Where(x => !x.IsDeleted)
+                  .GroupBy(x => new
+                  {
+                      x.ProductVariantId,
+                      x.ProductName,
+                      x.Color,
+                      x.Size,
+                      x.SKU
+                  })
+                  .Select(x => new
+                  {
+                      x.Key.ProductVariantId,
+                      x.Key.ProductName,
+                      x.Key.Color,
+                      x.Key.Size,
+                      x.Key.SKU,
+                      QuantitySold = x.Sum(i => i.Quantity),
+                      Revenue = x.Sum(i => i.TotalPrice)
+                  })
+                  .OrderByDescending(x => x.QuantitySold)
+                  .Take(count)
+                  .ToListAsync();
+                  
+                         return data.Select(x =>
+                             new TopSellingProductDto(
+                                 x.ProductVariantId,
+                                 x.ProductName,
+                                 x.Color,
+                                 x.Size,
+                                 x.SKU,
+                                 x.QuantitySold,
+                                 x.Revenue))
+                             .ToList();
         }
     }
 }
