@@ -20,6 +20,17 @@ namespace Persistance.Repositories.Read.Common
                 .ToListAsync();
         }
 
+        public async Task<List<Sale>> GetByDateRangeAsync(DateTime startDate, DateTime endDate)
+        {
+            return await Context.Sales
+                .AsNoTracking()
+                .Where(x =>
+                       !x.IsDeleted&&
+                       x.CreatedAt >= startDate &&
+                       x.CreatedAt <= endDate)
+                .ToListAsync();
+        }
+
         public async Task<List<Sale>> GetByEmployeeAsync(Guid employeeId)
         {
             return await Context.Sales

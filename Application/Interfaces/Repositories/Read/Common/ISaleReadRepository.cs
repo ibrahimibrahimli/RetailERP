@@ -12,5 +12,6 @@ namespace Application.Interfaces.Repositories.Read.Common
         Task<List<Sale>> GetByEmployeeAsync(Guid employeeId);
         Task<List<TopSellingProductDto>> GetTopSellingProductAsync(int count);
         Task<List<Sale>> GetRevenueByBranchAsync(int count);
+        Task<List<Sale>> GetByDateRangeAsync(DateTime startDate, DateTime endDate);
     }
 }

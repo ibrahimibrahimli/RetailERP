@@ -4,6 +4,7 @@ using Application.Features.Sales.Queries.GetRevenueByBranch;
 using Application.Features.Sales.Queries.GetSaleById;
 using Application.Features.Sales.Queries.GetSalesByBranch;
 using Application.Features.Sales.Queries.GetSalesByDateRange;
+using Application.Features.Sales.Queries.GetSalesSummaryByDateRange;
 using Application.Features.Sales.Queries.GetTopSellingProducts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -67,6 +68,13 @@ namespace RetailERP.API.Controllers
         public async Task<IActionResult> GetTopBranches([FromQuery] int count = 10)
         {
             var result = await _mediator.Send(new GetRevenueByBranchQuery(count));
+            return HandleResult(result);
+        }
+
+        [HttpGet("summary")]
+        public async Task<IActionResult> GetSummary([FromQuery] DateOnly startDate, [FromQuery] DateOnly endDate)
+        {
+            var result = await _mediator.Send( new GetSalesSummaryByDateRangeQuery(startDate, endDate));
             return HandleResult(result);
         }
     }
