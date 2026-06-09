@@ -20,6 +20,7 @@
     <Folder Include="Features\Branches\Queries\" />
     <Folder Include="Features\InventoryTransactions\Commands\" />
     <Folder Include="Features\InventoryTransactions\Validators\" />
+    <Folder Include="Features\Positions\Queries\" />
     <Folder Include="Features\Products\DTOs\" />
     <Folder Include="Features\Products\Queries\" />
   </ItemGroup>

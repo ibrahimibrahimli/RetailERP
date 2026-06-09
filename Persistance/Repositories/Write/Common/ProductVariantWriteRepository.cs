@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.Repositories.Read.Common;
+﻿using Application.Interfaces.Repositories.Write.Common;
 using Domain.Entities;
 using Persistance.Context;
 

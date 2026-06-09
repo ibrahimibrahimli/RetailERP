@@ -1,5 +1,6 @@
 ﻿using Application.Common.Results;
 using Application.Interfaces.Repositories.Read.Common;
+using Application.Interfaces.Repositories.Write.Common;
 using Domain.Entities;
 using MediatR;
 
