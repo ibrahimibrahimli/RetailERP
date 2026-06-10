@@ -11,15 +11,12 @@ namespace Domain.Entities
 
         private Position(string name)
         {
-            Name = name;
+            SetName(name);
             IsActive = true;
         }
 
         public static Position Create(string name) 
         { 
-            if(string.IsNullOrEmpty(name))
-                throw new ArgumentNullException("Name can not be empty");
-
             return new Position(name); 
         }
 
@@ -31,6 +28,14 @@ namespace Domain.Entities
         public void Deactivate()
         {
             IsActive = false;
+        }
+
+        private void SetName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("Name can not be empty");
+
+            Name = name.Trim();
         }
     }
 }

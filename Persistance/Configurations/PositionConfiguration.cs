@@ -14,7 +14,13 @@ namespace Persistance.Configurations
 
             builder.Property(x => x.Name)
                 .IsRequired()
-                .HasMaxLength(200);
+                .HasMaxLength(100);
+
+            builder.Property(x => x.IsActive)
+                .IsRequired();
+
+            builder.HasIndex(x => x.Name)
+                .IsUnique();
         }
     }
 }

@@ -17,5 +17,12 @@ namespace Persistance.Repositories.Read.Common
                 .AsNoTracking()
                 .AnyAsync(x => x.Name == name);
         }
+
+        public async Task<Position?> GetByNameAsync(string name)
+        {
+            return await Context.Positions
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Name == name && !x.IsDeleted);
+        }
     }
 }
