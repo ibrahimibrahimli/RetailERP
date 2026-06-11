@@ -10,11 +10,13 @@ namespace Application.Features.Employees.Commands.CreateEmployee
     {
         private readonly IBranchReadRepository _branchReadRepository;
         private readonly IEmployeeWriteRepository _employeeWriteRepository;
+        private readonly IPositionReadRepository _positionReadRepository;
 
-        public CreateEmployeeCommandHandler(IBranchReadRepository branchReadRepository, IEmployeeWriteRepository employeeWriteRepository)
+        public CreateEmployeeCommandHandler(IBranchReadRepository branchReadRepository, IEmployeeWriteRepository employeeWriteRepository, IPositionReadRepository positionReadRepository)
         {
             _branchReadRepository = branchReadRepository;
             _employeeWriteRepository = employeeWriteRepository;
+            _positionReadRepository = positionReadRepository;
         }
 
         public async Task<Result<Guid>> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
@@ -23,8 +25,13 @@ namespace Application.Features.Employees.Commands.CreateEmployee
             if (branch == null)
                 return Result<Guid>.Failure("Branch not found");
 
+            var position = await _positionReadRepository.GetByIdAsync(request.PositionId);
+            if(position == null)
+                return Result<Guid>.Failure("Position not found");
+
             Employee employee = Employee.Create(
                 request.BranchId,
+                request.PositionId, 
                 request.FirstName,
                 request.LastName,
                 request.EmployeeCode);

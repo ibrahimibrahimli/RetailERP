@@ -6,6 +6,8 @@ namespace Domain.Entities
     {
         public  Guid BranchId { get; private set; }
         public Branch Branch { get; private set; } = null!;
+        public  Guid PositionId { get; private set; }
+        public Position Position { get; private set; }
         public string FirstName { get; private set; } = null!;
         public string LastName { get; private set; } = null!;
         public string EmployeeCode { get; private set; } = null!;
@@ -13,18 +15,19 @@ namespace Domain.Entities
 
         private Employee() {}
 
-        public Employee(Guid branchId, string firstName, string lastName, string employeeCode)
+        public Employee(Guid branchId, Guid positionId, string firstName, string lastName, string employeeCode)
         {
             BranchId = branchId;
+            PositionId = positionId;
             SetFirstName(firstName);
             SetLastName(lastName);
             SetEmployeeCode(employeeCode);
             IsActive = true;
         }
 
-        public static Employee Create(Guid branchId, string firstName, string  lastName, string employeeCode)
+        public static Employee Create(Guid branchId, Guid positionId, string firstName, string  lastName, string employeeCode)
         {
-            return new Employee(branchId, firstName, lastName, employeeCode);
+            return new Employee(branchId, positionId, firstName, lastName, employeeCode);
         }
 
         public void Activate()
@@ -37,6 +40,14 @@ namespace Domain.Entities
         {
             IsActive = false;
             SetUpdatedTime();
+        }
+
+        public void ChangePosition(Guid positionId)
+        {
+            if (positionId == Guid.Empty)
+                throw new ArgumentException("Position is required");
+
+            PositionId = positionId;
         }
 
         private void SetFirstName(string firstName)

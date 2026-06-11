@@ -34,6 +34,11 @@ namespace Persistance.Configurations
                 .WithMany(x => x.Employees)
                 .HasForeignKey(x => x.BranchId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(x => x.Position)
+                .WithMany()
+                .HasForeignKey(x => x.PositionId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

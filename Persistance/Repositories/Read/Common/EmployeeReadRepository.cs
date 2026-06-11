@@ -18,6 +18,7 @@ namespace Persistance.Repositories.Read.Common
             return await Context.Employees
                 .AsNoTracking()
                 .Include(x => x.Branch)
+                .Include(x => x.Position)
                 .ToListAsync();
         }
 

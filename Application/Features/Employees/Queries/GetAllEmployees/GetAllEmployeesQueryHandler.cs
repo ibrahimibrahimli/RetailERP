@@ -27,7 +27,9 @@ namespace Application.Features.Employees.Queries.GetAllEmployees
                 x.LastName,
                 x.IsActive,
                 x.BranchId,
-                x.Branch.Name)).ToList();
+                x.Branch.Name,
+                x.PositionId,
+                x.Position.Name)).ToList();
 
             return Result<List<EmployeeDto>>.Success(response);
         }

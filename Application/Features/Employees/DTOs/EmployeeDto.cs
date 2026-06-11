@@ -7,5 +7,7 @@
         string LastName,
         bool IsActive,
         Guid BranchId,
-        string BranchName);
+        string BranchName,
+        Guid PositionId,
+        string PositionName);
 }

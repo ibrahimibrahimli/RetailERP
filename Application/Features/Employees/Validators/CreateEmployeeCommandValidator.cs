@@ -10,6 +10,9 @@ namespace Application.Features.Employees.Validators
             RuleFor(x => x.BranchId)
             .NotEmpty();
 
+            RuleFor(x => x.PositionId)
+                .NotEmpty();
+
             RuleFor(x => x.FirstName)
                 .NotEmpty()
                 .MaximumLength(100);
