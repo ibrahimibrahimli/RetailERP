@@ -50,6 +50,14 @@ namespace Domain.Entities
             PositionId = positionId;
         }
 
+        public void ChangeBranch(Guid branchId)
+        {
+            if (branchId == Guid.Empty)
+                throw new ArgumentException("Branch not found");
+
+            BranchId = branchId;
+        }
+
         private void SetFirstName(string firstName)
         {
             if (string.IsNullOrEmpty(firstName))

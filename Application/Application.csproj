@@ -22,6 +22,9 @@
     <Folder Include="Features\InventoryTransactions\Validators\" />
     <Folder Include="Features\Products\DTOs\" />
     <Folder Include="Features\Products\Queries\" />
+    <Folder Include="Features\TransferEmployee\DTOs\" />
+    <Folder Include="Features\TransferEmployee\Queries\" />
+    <Folder Include="Features\TransferEmployee\Validators\" />
   </ItemGroup>
 
 </Project>

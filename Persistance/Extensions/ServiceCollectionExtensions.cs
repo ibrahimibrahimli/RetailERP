@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.Repositories.Read.Common;
+﻿using Application.Interfaces;
+using Application.Interfaces.Repositories.Read.Common;
 using Application.Interfaces.Repositories.Write.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Persistance.Context;
 using Persistance.Repositories.Read.Common;
 using Persistance.Repositories.Write.Common;
+using Persistance.Services;
 
 namespace Persistance.Extensions
 {
@@ -51,6 +53,11 @@ namespace Persistance.Extensions
 
             services.AddScoped<IPositionReadRepository, PositionReadRepository>();
             services.AddScoped<IPositionWriteRepository, PositionWriteRepository>();
+
+            services.AddScoped<IEmployeeTransferReadRepository, EmployeeTransferReadRepository>();
+            services.AddScoped<IEmployeeTransferWriteRepository, EmployeeTransferWriteRepository>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }
