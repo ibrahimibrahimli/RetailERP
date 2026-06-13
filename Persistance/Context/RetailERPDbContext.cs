@@ -20,6 +20,7 @@ namespace Persistance.Context
         public DbSet<ProductVariant> ProductVariants => Set<ProductVariant>();
         public DbSet<Employee> Employees => Set<Employee>();
         public DbSet<Position> Positions => Set<Position>();
+        public DbSet<EmployeeTransfer> EmployeeTransfers => Set<EmployeeTransfer>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
