@@ -22,6 +22,11 @@ namespace Application.Features.Bonuses.Queries
             if (employee is null)
                 return Result<BonusEligibilityDto>.Failure("Employee not found");
 
+            var activeEmployeeSpecification = new ActiveEmployeeSpecification();
+            if (!activeEmployeeSpecification.IsSatisfiedBy(employee))
+                return Result<BonusEligibilityDto>.Success(
+                    new (employee.Id, false, "Employee is not active"));
+
             var transfers = await _employeeTransferReadRepository.GetByEmployeeAsync(request.EmployeeId);
             if (transfers is null)
                 return Result<BonusEligibilityDto>.Failure("Transfer not found");
