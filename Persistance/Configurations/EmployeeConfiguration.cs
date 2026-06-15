@@ -30,6 +30,9 @@ namespace Persistance.Configurations
             builder.HasIndex(x => x.EmployeeCode)
                 .IsUnique();
 
+            builder.Property(x => x.HireDate)
+                .IsRequired();
+
             builder.HasOne(x => x.Branch)
                 .WithMany(x => x.Employees)
                 .HasForeignKey(x => x.BranchId)

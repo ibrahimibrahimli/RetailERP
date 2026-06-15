@@ -11,11 +11,12 @@ namespace Domain.Entities
         public string FirstName { get; private set; } = null!;
         public string LastName { get; private set; } = null!;
         public string EmployeeCode { get; private set; } = null!;
+        public DateOnly HireDate { get; private set; }
         public bool IsActive { get; private set; }
 
         private Employee() {}
 
-        public Employee(Guid branchId, Guid positionId, string firstName, string lastName, string employeeCode)
+        private Employee(Guid branchId, Guid positionId, string firstName, string lastName, string employeeCode, DateOnly hireDate)
         {
             BranchId = branchId;
             PositionId = positionId;
@@ -23,11 +24,12 @@ namespace Domain.Entities
             SetLastName(lastName);
             SetEmployeeCode(employeeCode);
             IsActive = true;
+            HireDate = hireDate;
         }
 
-        public static Employee Create(Guid branchId, Guid positionId, string firstName, string  lastName, string employeeCode)
+        public static Employee Create(Guid branchId, Guid positionId, string firstName, string  lastName, string employeeCode, DateOnly hireDate)
         {
-            return new Employee(branchId, positionId, firstName, lastName, employeeCode);
+            return new Employee(branchId, positionId, firstName, lastName, employeeCode, hireDate);
         }
 
         public void Activate()

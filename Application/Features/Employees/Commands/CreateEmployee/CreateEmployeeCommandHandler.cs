@@ -34,7 +34,8 @@ namespace Application.Features.Employees.Commands.CreateEmployee
                 request.PositionId, 
                 request.FirstName,
                 request.LastName,
-                request.EmployeeCode);
+                request.EmployeeCode,
+                request.HireDate);
 
             await _employeeWriteRepository.AddAsync(employee);
             await _employeeWriteRepository.SaveChangesAsync();

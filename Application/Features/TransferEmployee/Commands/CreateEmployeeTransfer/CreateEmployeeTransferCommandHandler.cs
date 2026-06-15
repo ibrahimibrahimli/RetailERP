@@ -54,6 +54,7 @@ namespace Application.Features.TransferEmployee.Commands.CreateEmployeeTransfer
             await _employeeTransferWriteRepository.AddAsync(transfer);
             await _unitOfWork.SaveChangesAsync();
 
+            return Result.Success();
         }
     }
 }

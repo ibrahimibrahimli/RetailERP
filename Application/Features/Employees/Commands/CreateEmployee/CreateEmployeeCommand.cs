@@ -8,5 +8,6 @@ namespace Application.Features.Employees.Commands.CreateEmployee
         Guid PositionId,
         string FirstName,
         string LastName,
-        string EmployeeCode) : IRequest<Result<Guid>>;
+        string EmployeeCode,
+        DateOnly HireDate) : IRequest<Result<Guid>>;
 }

@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Application.Features.Bonuses.Queries
 {
-    public sealed class CheckBonusEligibilityQueryHandler : IRequestHandler<CheckBonusEligibilityQuery, Result<BonusEligibilityDto>
+    public sealed class CheckBonusEligibilityQueryHandler : IRequestHandler<CheckBonusEligibilityQuery, Result<BonusEligibilityDto>>
     {
         private readonly IEmployeeReadRepository _employeeReadRepository;
         private readonly IEmployeeTransferReadRepository _employeeTransferReadRepository;

@@ -24,6 +24,9 @@ namespace Application.Features.Employees.Validators
             RuleFor(x => x.EmployeeCode)
                 .NotEmpty()
                 .MaximumLength(50);
+
+            RuleFor(x => x.FirstName)
+                .NotEmpty();
         }
     }
 }
