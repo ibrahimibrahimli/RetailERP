@@ -1,4 +1,5 @@
 ﻿using Application.Common.Behavior;
+using Application.Features.Bonuses.Factories;
 using Application.Features.Brands.Command.CreateBrand;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,8 @@ namespace Application.Extensions
             });
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+            services.AddScoped<IEmployeeBonusEligibilitySpecificationFactory, EmployeeBonusEligibilitySpecificationFactory>();
 
             return services;
         }

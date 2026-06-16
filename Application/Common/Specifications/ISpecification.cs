@@ -2,6 +2,6 @@
 {
     public interface ISpecification<T>
     {
-        bool IsSatisfiedBy(T specification);
+        SpecificationResult IsSatisfiedBy(T entity);
     }
 }

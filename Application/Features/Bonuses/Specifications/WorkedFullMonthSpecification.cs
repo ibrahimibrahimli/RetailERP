@@ -14,10 +14,10 @@ namespace Application.Features.Bonuses.Specifications
             _month = month;
         }
 
-        public bool IsSatisfiedBy(Employee employee)
+        public SpecificationResult IsSatisfiedBy(Employee employee)
         {
-            var firstDayOfMonth = new DateOnly(_year, _month,1);
-            return employee.HireDate <= firstDayOfMonth;
+            var firstDayOfMonth = new DateOnly(_year, _month, 1);
+            return employee.HireDate <= firstDayOfMonth ? new(true) : new(false, "Employee has not worked the full month");
         }
     }
 }

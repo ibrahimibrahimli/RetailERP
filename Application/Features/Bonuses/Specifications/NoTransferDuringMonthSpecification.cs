@@ -16,12 +16,14 @@ namespace Application.Features.Bonuses.Specifications
             _month = month;
         }
 
-        public bool IsSatisfiedBy(Employee employee)
+        public SpecificationResult IsSatisfiedBy(Employee employee)
         {
-            return _transfers.Any(x =>
-            x.EmployeeId == employee.Id &&
-            x.TransferDate.Year == _year &&
-            x.TransferDate.Month == _month);
+            var hasTransfer = _transfers.Any(x =>
+                x.EmployeeId == employee.Id &&
+                x.TransferDate.Year == _year &&
+                x.TransferDate.Month == _month);
+
+            return hasTransfer ? new(false, "Employee was transferred during the selected month") : new(true);
         }
     }
 }

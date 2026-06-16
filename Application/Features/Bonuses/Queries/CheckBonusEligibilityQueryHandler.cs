@@ -1,6 +1,6 @@
 ﻿using Application.Common.Results;
 using Application.Features.Bonuses.DTOs;
-using Application.Features.Bonuses.Specifications;
+using Application.Features.Bonuses.Factories;
 using Application.Interfaces.Repositories.Read.Common;
 using MediatR;
 
@@ -10,10 +10,12 @@ namespace Application.Features.Bonuses.Queries
     {
         private readonly IEmployeeReadRepository _employeeReadRepository;
         private readonly IEmployeeTransferReadRepository _employeeTransferReadRepository;
-        public CheckBonusEligibilityQueryHandler(IEmployeeReadRepository employeeReadRepository, IEmployeeTransferReadRepository employeeTransferReadRepository)
+        private readonly IEmployeeBonusEligibilitySpecificationFactory _factory;
+        public CheckBonusEligibilityQueryHandler(IEmployeeReadRepository employeeReadRepository, IEmployeeTransferReadRepository employeeTransferReadRepository, IEmployeeBonusEligibilitySpecificationFactory factory)
         {
             _employeeReadRepository = employeeReadRepository;
             _employeeTransferReadRepository = employeeTransferReadRepository;
+            _factory = factory;
         }
 
         public async Task<Result<BonusEligibilityDto>> Handle(CheckBonusEligibilityQuery request, CancellationToken cancellationToken)
@@ -22,31 +24,17 @@ namespace Application.Features.Bonuses.Queries
             if (employee is null)
                 return Result<BonusEligibilityDto>.Failure("Employee not found");
 
-            var activeEmployeeSpecification = new ActiveEmployeeSpecification();
-            if (!activeEmployeeSpecification.IsSatisfiedBy(employee))
-                return Result<BonusEligibilityDto>.Success(
-                    new (employee.Id, false, "Employee is not active"));
 
             var transfers = await _employeeTransferReadRepository.GetByEmployeeAsync(request.EmployeeId);
-            if (transfers is null)
-                return Result<BonusEligibilityDto>.Failure("Transfer not found");
 
-            var transferSecification = new NoTransferDuringMonthSpecification(
-                transfers,
-                request.Year,
-                request.Month);
+            var specification = _factory.Create(transfers, request.Year, request.Month);
 
-            if (!transferSecification.IsSatisfiedBy(employee))
-                return Result<BonusEligibilityDto>.Success(new(employee.Id,
-                                                               false,
-                                                               "Employee was transferred during the selected month."));
-
-            var workedFullMonthSpecification = new WorkedFullMonthSpecification(request.Year, request.Month);
-            if (!workedFullMonthSpecification.IsSatisfiedBy(employee))
+            var evaluationResult = specification.Evaluate(employee);
+            if (!evaluationResult.IsSatisfied)
                 return Result<BonusEligibilityDto>.Success(new(
                     employee.Id,
                     false,
-                    "Employee has not worked in the full month"));
+                    evaluationResult.Reason));
 
             return Result<BonusEligibilityDto>.Success(new(
                 employee.Id,

@@ -5,9 +5,9 @@ namespace Application.Features.Bonuses.Specifications
 {
     public sealed class ActiveEmployeeSpecification : ISpecification<Employee>
     {
-        public bool IsSatisfiedBy(Employee employee)
+        public SpecificationResult IsSatisfiedBy(Employee employee)
         {
-            return employee.IsActive;
+            return employee.IsActive ? new(true) : new(false, "Employee is not active");
         }
     }
 }
