@@ -31,15 +31,22 @@ namespace Application.Features.Bonuses.Queries
             if (transfers is null)
                 return Result<BonusEligibilityDto>.Failure("Transfer not found");
 
-            var specification = new NoTransferDuringMonthSpecification(
+            var transferSecification = new NoTransferDuringMonthSpecification(
                 transfers,
                 request.Year,
                 request.Month);
 
-            if (!specification.IsSatisfiedBy(employee))
+            if (!transferSecification.IsSatisfiedBy(employee))
                 return Result<BonusEligibilityDto>.Success(new(employee.Id,
                                                                false,
                                                                "Employee was transferred during the selected month."));
+
+            var workedFullMonthSpecification = new WorkedFullMonthSpecification(request.Year, request.Month);
+            if (!workedFullMonthSpecification.IsSatisfiedBy(employee))
+                return Result<BonusEligibilityDto>.Success(new(
+                    employee.Id,
+                    false,
+                    "Employee has not worked in the full month"));
 
             return Result<BonusEligibilityDto>.Success(new(
                 employee.Id,
