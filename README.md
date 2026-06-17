@@ -14,7 +14,7 @@ RetailERP is a backend application responsible for managing the core operations 
 * Bonus Eligibility Management
 * Sales Analytics
 
-Built with C#, the project demonstrates how to structure enterprise applications using Domain-Driven Design (DDD), CQRS, Rich Domain Models, Specification Pattern, and Clean Architecture principles.
+Built with C#, the project demonstrates how to structure enterprise applications using Domain-Driven Design (DDD), CQRS, Rich Domain Models, Specification Pattern, Factory Method Pattern, and Clean Architecture principles.
 
 ---
 
@@ -83,15 +83,16 @@ Built with C#, the project demonstrates how to structure enterprise applications
 * Activate Employees
 * Deactivate Employees
 * Employee Branch Assignment
+* Employee Position Assignment
 * Employee Sales Tracking
 * Employee Transfer Tracking
-* Employee Position Assignment
 
 ---
 
 ## Bonus Management
 
 * Bonus Eligibility Validation
+* Active Employee Validation
 * Full Month Employment Validation
 * Transfer-Based Bonus Restrictions
 * Composite Eligibility Rules
@@ -266,7 +267,11 @@ Implemented using MediatR.
 
 ## Factory Method Pattern
 
-Used for controlled object creation.
+Used for controlled object creation and business rule composition.
+
+### DDD Factory Methods
+
+Used to enforce invariants and create valid domain entities.
 
 Examples:
 
@@ -275,6 +280,28 @@ Examples:
 * Sale.Create()
 * Employee.Create()
 * EmployeeTransfer.Create()
+
+### GOF Factory Method
+
+Used to encapsulate complex object creation and business rule assembly.
+
+Examples:
+
+* EmployeeBonusEligibilitySpecificationFactory
+
+Responsibilities:
+
+* Builds bonus eligibility specifications
+* Encapsulates specification composition
+* Centralizes business rule construction
+* Keeps handlers focused on orchestration rather than object creation
+
+Benefits:
+
+* Improves maintainability
+* Supports Open/Closed Principle
+* Reduces handler complexity
+* Simplifies future bonus rule extensions
 
 ---
 
@@ -469,4 +496,4 @@ Top N Bonus Engine                🚧
 Over Limit Bonus Engine           🚧
 ```
 
-The project is actively evolving feature by feature while following Domain-Driven Design, CQRS, Clean Architecture, Rich Domain Models, and modern enterprise application design principles.
+The project is actively evolving feature by feature while following Domain-Driven Design, CQRS, Clean Architecture, Rich Domain Models, Specification Pattern, Factory Method Pattern, and modern enterprise application design principles.
