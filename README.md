@@ -10,9 +10,11 @@ RetailERP is a backend application responsible for managing the core operations 
 * Stock Transfers
 * Sales Management
 * Employee Management
+* Employee Transfer Management
+* Bonus Eligibility Management
 * Sales Analytics
 
-Built with C#, the project demonstrates how to structure enterprise applications using Domain-Driven Design (DDD), CQRS, Rich Domain Models, and Clean Architecture principles.
+Built with C#, the project demonstrates how to structure enterprise applications using Domain-Driven Design (DDD), CQRS, Rich Domain Models, Specification Pattern, and Clean Architecture principles.
 
 ---
 
@@ -82,6 +84,18 @@ Built with C#, the project demonstrates how to structure enterprise applications
 * Deactivate Employees
 * Employee Branch Assignment
 * Employee Sales Tracking
+* Employee Transfer Tracking
+* Employee Position Assignment
+
+---
+
+## Bonus Management
+
+* Bonus Eligibility Validation
+* Full Month Employment Validation
+* Transfer-Based Bonus Restrictions
+* Composite Eligibility Rules
+* Dynamic Bonus Rule Infrastructure
 
 ---
 
@@ -108,21 +122,25 @@ Examples:
 * Product
 * ProductVariant
 * BranchInventory
+* InventoryTransaction
+* Employee
+* EmployeeTransfer
 * Sale
 * SaleItem
-* Employee
 
 ---
 
 ## Application Layer
 
-Contains CQRS commands, queries, DTOs, validators, and business workflows.
+Contains CQRS commands, queries, DTOs, validators, specifications, factories, and business workflows.
 
 Examples:
 
 * CreateSaleCommand
 * AddStockCommand
 * TransferStockCommand
+* CreateEmployeeTransferCommand
+* CheckBonusEligibilityQuery
 * GetTopEmployeesQuery
 
 ---
@@ -151,6 +169,7 @@ Examples:
 * ProductVariant
 * BranchInventory
 * Employee
+* EmployeeTransfer
 * Sale
 * SaleItem
 
@@ -164,8 +183,9 @@ Examples:
 
 * Product
 * BranchInventory
-* Sale
 * Employee
+* EmployeeTransfer
+* Sale
 
 ---
 
@@ -179,6 +199,7 @@ Examples:
 * IProductWriteRepository
 * ISaleReadRepository
 * IEmployeeReadRepository
+* IEmployeeTransferReadRepository
 
 ---
 
@@ -191,8 +212,10 @@ Shared business terminology:
 * Inventory
 * Sale
 * Employee
+* Employee Transfer
 * Revenue
 * Stock Transfer
+* Bonus Eligibility
 
 ---
 
@@ -206,6 +229,7 @@ Core modules:
 * Inventory Management
 * Sales Management
 * Employee Management
+* Bonus Management
 
 ---
 
@@ -217,8 +241,8 @@ Separates write and read operations.
 
 Examples:
 
-* Commands → CreateSale, AddStock, TransferStock
-* Queries → TopEmployees, RevenueByBranch
+* Commands → CreateSale, AddStock, TransferStock, CreateEmployeeTransfer
+* Queries → TopEmployees, RevenueByBranch, CheckBonusEligibility
 
 ---
 
@@ -242,7 +266,7 @@ Implemented using MediatR.
 
 ## Factory Method Pattern
 
-Used for controlled entity creation.
+Used for controlled object creation.
 
 Examples:
 
@@ -250,12 +274,35 @@ Examples:
 * ProductVariant.Create()
 * Sale.Create()
 * Employee.Create()
+* EmployeeTransfer.Create()
+
+---
+
+## Specification Pattern
+
+Encapsulates business rules into reusable specification objects.
+
+Examples:
+
+* ActiveEmployeeSpecification
+* WorkedFullMonthSpecification
+* NoTransferDuringMonthSpecification
+
+---
+
+## Composite Specification Pattern
+
+Combines multiple specifications into a single business rule.
+
+Examples:
+
+* BonusEligibilitySpecification
 
 ---
 
 ## Unit of Work Pattern
 
-Ensures transactional consistency.
+Ensures transactional consistency across multiple operations.
 
 ---
 
@@ -307,9 +354,17 @@ InventoryTransaction
 
 Employee
  ↓
+EmployeeTransfer
+
+Employee
+ ↓
 Sale
  ↓
 SaleItem
+
+Employee
+ ↓
+Bonus Eligibility
 ```
 
 ---
@@ -347,9 +402,20 @@ SaleItem
 ## Employee Management
 
 * Employee Creation
-* Activation / Deactivation
+* Employee Activation / Deactivation
+* Employee Transfer Management
 * Employee Revenue Tracking
 * Employee Performance Tracking
+
+---
+
+## Bonus Management
+
+* Bonus Eligibility Validation
+* Active Employee Validation
+* Full Month Employment Validation
+* Transfer Restriction Validation
+* Composite Eligibility Evaluation
 
 ---
 
@@ -365,6 +431,11 @@ SaleItem
 
 # 🚀 Planned Features
 
+* Fixed Bonus Strategy
+* Percentage Bonus Strategy
+* Top N Bonus Strategy
+* Over Limit Bonus Strategy
+* Combined Bonus Strategy
 * Supplier Management
 * Purchase Management
 * Warehouse Management
@@ -382,13 +453,20 @@ SaleItem
 Current state:
 
 ```text
-Catalog Management            ✅
-Product Variants             ✅
-Inventory Management         ✅
-Inventory Transactions       ✅
-Sales Management             ✅
-Employee Management          ✅
-Sales Analytics              ✅
+Catalog Management                ✅
+Product Variants                  ✅
+Inventory Management              ✅
+Inventory Transactions            ✅
+Sales Management                  ✅
+Employee Management               ✅
+Employee Transfers                ✅
+Bonus Eligibility Engine          ✅
+Sales Analytics                   ✅
+
+Fixed Bonus Engine                🚧
+Percentage Bonus Engine           🚧
+Top N Bonus Engine                🚧
+Over Limit Bonus Engine           🚧
 ```
 
-The project is actively evolving feature by feature while following Domain-Driven Design, CQRS, and Clean Architecture principles.
+The project is actively evolving feature by feature while following Domain-Driven Design, CQRS, Clean Architecture, Rich Domain Models, and modern enterprise application design principles.
