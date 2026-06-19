@@ -57,6 +57,9 @@ namespace Persistance.Extensions
             services.AddScoped<IEmployeeTransferReadRepository, EmployeeTransferReadRepository>();
             services.AddScoped<IEmployeeTransferWriteRepository, EmployeeTransferWriteRepository>();
 
+            services.AddScoped<IBonusRuleReadRepository, BonusRuleReadRepository>();
+            services.AddScoped<IBonusRuleWriteRepository, BonusRuleWriteRepository>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;

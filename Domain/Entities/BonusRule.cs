@@ -8,10 +8,13 @@ namespace Domain.Entities
         public BonusType BonusType { get; private set; }
 
         public Guid PositionId { get; private set; }
+        public Position Position { get; private set; } = default!;
 
         public decimal MinimumSales { get; private set; }
 
         public decimal? MaximumSales { get; private set; }
+        public DateOnly EffectiveFrom { get; private set; }
+        public DateOnly? EffectiveTo { get; private set; }
 
         public decimal BonusValue { get; private set; }
 
