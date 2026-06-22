@@ -29,13 +29,17 @@ namespace Domain.Entities
             Guid positionId,
             decimal minimumSales,
             decimal? maximumSales,
-            decimal bonusValue)
+            decimal bonusValue,
+            DateOnly effectiveFrom,
+            DateOnly? effectiveTo)
         {
             BonusType = bonusType;
             PositionId = positionId;
             MinimumSales = minimumSales;
             MaximumSales = maximumSales;
             BonusValue = bonusValue;
+            EffectiveFrom = effectiveFrom;
+            EffectiveTo = effectiveTo;
             IsActive = true;
         }
 
@@ -44,14 +48,18 @@ namespace Domain.Entities
             Guid positionId,
             decimal minimumSales,
             decimal? maximumSales,
-            decimal bonusValue)
+            decimal bonusValue,
+            DateOnly effectiveFrom,
+            DateOnly? effectiveTo)
         {
             return new BonusRule(
                 bonusType,
                 positionId,
                 minimumSales,
                 maximumSales,
-                bonusValue);
+                bonusValue,
+                effectiveFrom,
+                effectiveTo);
         }
 
         public void Deactivate()
