@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application.Features.BonusRules.DTOs;
+using Domain.Entities;
 using Domain.Enums;
 
 namespace Application.Interfaces.Repositories.Read.Common
@@ -10,5 +11,7 @@ namespace Application.Interfaces.Repositories.Read.Common
             DateOnly effectiveFrom,
             DateOnly? effectiveTo,
             CancellationToken cancellationToken = default);
+
+        Task<List<BonusRuleDto>> GetAllAsync(CancellationToken cancellationToken = default);
     }
 }

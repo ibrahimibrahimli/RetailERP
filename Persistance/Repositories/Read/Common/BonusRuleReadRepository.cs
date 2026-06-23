@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.Repositories.Read.Common;
+﻿using Application.Features.BonusRules.DTOs;
+using Application.Interfaces.Repositories.Read.Common;
 using Domain.Entities;
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,27 @@ namespace Persistance.Repositories.Read.Common
     {
         public BonusRuleReadRepository(RetailERPDbContext context) : base(context)
         {
+        }
+
+        public async Task<List<BonusRuleDto>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            return await Context.BonusRules
+                .AsNoTracking()
+                .Where(x => !x.IsDeleted)
+                .Include(x => x.Position)
+                .OrderBy(x => x.Position.Name)
+                .ThenBy(x => x.MinimumSales)
+                .Select(x => new BonusRuleDto (
+                    x.Id,
+                    x.PositionId,
+                    x.Position.Name,
+                    x.BonusType,
+                    x.MinimumSales,
+                    x.MaximumSales,
+                    x.BonusValue,
+                    x.EffectiveFrom,
+                    x.EffectiveTo,
+                    x.IsActive)).ToListAsync(cancellationToken);
         }
 
         public async Task<bool> HasOverlappingRuleAsync(Guid positionId, BonusType bonusType, DateOnly effectiveFrom, DateOnly? effectiveTo, CancellationToken cancellationToken = default)
