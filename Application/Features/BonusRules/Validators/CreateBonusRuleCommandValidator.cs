@@ -1,4 +1,4 @@
-﻿using Application.Features.BonusRules.Commands;
+﻿using Application.Features.BonusRules.Commands.CreateBonusRule;
 using FluentValidation;
 
 namespace Application.Features.BonusRules.Validators

@@ -23,5 +23,10 @@ namespace Application.Features.Bonuses.Specifications
 
             return new(true);
         }
+
+        public SpecificationResult IsSatisfiedBy(Employee entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

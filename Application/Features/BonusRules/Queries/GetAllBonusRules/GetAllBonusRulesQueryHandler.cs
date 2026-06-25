@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Features.BonusRules.Queries.GetAllBonusRules
 {
-    public sealed class GetAllBonusRulesQueryHandler : IRequestHandler<GetAllBonusRulesQuery, Result<List<BonusRuleDto>>
+    public sealed class GetAllBonusRulesQueryHandler : IRequestHandler<GetAllBonusRulesQuery, Result<List<BonusRuleDto>>>
     {
         private readonly IBonusRuleReadRepository _readRepository;
 

@@ -5,7 +5,7 @@ using Application.Interfaces.Repositories.Write.Common;
 using Domain.Entities;
 using MediatR;
 
-namespace Application.Features.BonusRules.Commands
+namespace Application.Features.BonusRules.Commands.CreateBonusRule
 {
     public sealed class CreateBonusRuleCommandHandler : IRequestHandler<CreateBonusRuleCommand, Result>
     {

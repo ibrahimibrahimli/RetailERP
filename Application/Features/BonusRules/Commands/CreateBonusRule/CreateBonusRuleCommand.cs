@@ -2,7 +2,7 @@
 using Domain.Enums;
 using MediatR;
 
-namespace Application.Features.BonusRules.Commands
+namespace Application.Features.BonusRules.Commands.CreateBonusRule
 {
     public sealed record CreateBonusRuleCommand(
         Guid PositionId,

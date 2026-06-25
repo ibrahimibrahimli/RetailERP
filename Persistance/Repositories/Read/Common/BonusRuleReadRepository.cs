@@ -34,24 +34,13 @@ namespace Persistance.Repositories.Read.Common
                     x.IsActive)).ToListAsync(cancellationToken);
         }
 
-        public async Task<BonusRuleDetailsDto?> GetByIdAsync(Guid Id, CancellationToken cancellationToken = default)
+        public async Task<BonusRule?> GetByIdAsync(Guid Id, CancellationToken cancellationToken = default)
         {
             return await Context.BonusRules
-                .AsNoTracking()
                 .Where(x => !x.IsDeleted)
                 .Where(x => x.Id == Id)
                 .Include(x => x.Position)
-                .Select(x => new BonusRuleDetailsDto(
-                    x.Id,
-                    x.PositionId,
-                    x.Position.Name,
-                    x.BonusType,
-                    x.MinimumSales,
-                    x.MaximumSales,
-                    x.BonusValue,
-                    x.EffectiveFrom,
-                    x.EffectiveTo,
-                    x.IsActive)).FirstOrDefaultAsync(cancellationToken);
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
         public async Task<bool> HasOverlappingRuleAsync(Guid positionId, BonusType bonusType, DateOnly effectiveFrom, DateOnly? effectiveTo, CancellationToken cancellationToken = default)
