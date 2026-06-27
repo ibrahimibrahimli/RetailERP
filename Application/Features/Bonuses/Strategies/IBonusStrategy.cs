@@ -1,6 +1,10 @@
-﻿namespace Application.Features.Bonuses.Strategies
+﻿using Application.Features.Bonuses.DTOs;
+using Domain.Entities;
+
+namespace Application.Features.Bonuses.Strategies
 {
-    internal interface IBonusStrategy
+    public interface IBonusStrategy
     {
+        BonusCalculationResult Calculate(BonusCalculationContext context, IEnumerable<BonusRule> rules);
     }
 }
