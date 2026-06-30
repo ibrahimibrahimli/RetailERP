@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Bonuses\Queries\CalculateBonus\" />
     <Folder Include="Features\Branches\Validators\" />
     <Folder Include="Features\Branches\Queries\" />
     <Folder Include="Features\InventoryTransactions\Commands\" />

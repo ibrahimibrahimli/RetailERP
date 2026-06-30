@@ -1,4 +1,4 @@
-﻿using Application.Features.Bonuses.Queries;
+﻿using Application.Features.Bonuses.Queries.CheckBonusEligibility;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

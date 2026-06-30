@@ -4,7 +4,7 @@ using Application.Features.Bonuses.Factories;
 using Application.Interfaces.Repositories.Read.Common;
 using MediatR;
 
-namespace Application.Features.Bonuses.Queries
+namespace Application.Features.Bonuses.Queries.CheckBonusEligibility
 {
     public sealed class CheckBonusEligibilityQueryHandler : IRequestHandler<CheckBonusEligibilityQuery, Result<BonusEligibilityDto>>
     {

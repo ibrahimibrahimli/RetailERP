@@ -9,7 +9,7 @@ namespace Application.Features.Bonuses.Strategies
         public BonusCalculationResult Calculate(BonusCalculationContext context, IEnumerable<BonusRule> rules)
         {
             var rule = rules
-                .Where(x => x.BonusType == Domain.Enums.BonusType.Fixed)
+                .Where(x => x.BonusType == BonusType.Fixed)
                 .Where(x => x.PositionId == context.PositionId)
                 .FirstOrDefault(x => context.PersonalSales >= x.MinimumSales &&
                 (!x.MaximumSales.HasValue || context.PersonalSales <= x.MinimumSales));

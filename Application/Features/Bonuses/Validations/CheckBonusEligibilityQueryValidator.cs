@@ -1,4 +1,4 @@
-﻿using Application.Features.Bonuses.Queries;
+﻿using Application.Features.Bonuses.Queries.CheckBonusEligibility;
 using FluentValidation;
 
 namespace Application.Features.Bonuses.Validations
