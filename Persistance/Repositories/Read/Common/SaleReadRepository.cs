@@ -3,6 +3,7 @@ using Application.Interfaces.Repositories.Read.Common;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Persistance.Context;
+using System.Threading;
 
 namespace Persistance.Repositories.Read.Common
 {
@@ -25,7 +26,7 @@ namespace Persistance.Repositories.Read.Common
             return await Context.Sales
                 .AsNoTracking()
                 .Where(x =>
-                       !x.IsDeleted&&
+                       !x.IsDeleted &&
                        x.CreatedAt >= startDate &&
                        x.CreatedAt <= endDate)
                 .ToListAsync();
@@ -39,6 +40,20 @@ namespace Persistance.Repositories.Read.Common
                 .Where(x => x.EmployeeId == employeeId && !x.IsDeleted)
                 .OrderByDescending(x => x.SaleDate)
                 .ToListAsync();
+        }
+
+        public async Task<decimal> GetEmployeePersonalSalesAsync(Guid employeeId, int year, int month, CancellationToken cancellation)
+        {
+            var startDate = new DateTime(year, month, 1);
+            var endDate = startDate.AddMonths(1);
+
+            return await Context.Sales
+                .AsNoTracking()
+                .Where(x => !x.IsDeleted)
+                .Where(x => x.EmployeeId == employeeId)
+                .Where(x => x.CreatedAt >= startDate &&
+                    x.CreatedAt < endDate)
+                .SumAsync(x => x.TotalAmount, cancellation);
         }
 
         public async Task<List<Sale>> GetRevenueByBranchAsync(int count)
@@ -102,17 +117,17 @@ namespace Persistance.Repositories.Read.Common
                   .OrderByDescending(x => x.QuantitySold)
                   .Take(count)
                   .ToListAsync();
-                  
-                         return data.Select(x =>
-                             new TopSellingProductDto(
-                                 x.ProductVariantId,
-                                 x.ProductName,
-                                 x.Color,
-                                 x.Size,
-                                 x.SKU,
-                                 x.QuantitySold,
-                                 x.Revenue))
-                             .ToList();
+
+            return data.Select(x =>
+                new TopSellingProductDto(
+                    x.ProductVariantId,
+                    x.ProductName,
+                    x.Color,
+                    x.Size,
+                    x.SKU,
+                    x.QuantitySold,
+                    x.Revenue))
+                .ToList();
         }
     }
 }
