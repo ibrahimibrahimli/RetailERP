@@ -13,6 +13,7 @@ namespace Application.Interfaces.Repositories.Read.Common
             CancellationToken cancellationToken = default);
 
         Task<List<BonusRuleDto>> GetAllAsync(CancellationToken cancellationToken = default);
-        Task<BonusRule?> GetByIdAsync(Guid Id,  CancellationToken cancellationToken = default); 
+        Task<BonusRule?> GetByIdAsync(Guid Id,  CancellationToken cancellationToken = default);
+        Task<List<BonusRule>> GetActiveRulesAsync(Guid positionId, int year, int month, CancellationToken cancellationToken = default);
     }
 }

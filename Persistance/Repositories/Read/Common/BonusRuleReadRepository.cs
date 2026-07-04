@@ -13,6 +13,23 @@ namespace Persistance.Repositories.Read.Common
         {
         }
 
+        public async Task<List<BonusRule>> GetActiveRulesAsync(Guid positionId, int year, int month, CancellationToken cancellationToken = default)
+        {
+            var calculationDate = new DateOnly(year, month, 1);
+
+            return await Context.BonusRules
+                .AsNoTracking()
+                .Where(x => !x.IsDeleted)
+                .Where(x => x.IsActive)
+                .Where(x => x.PositionId == positionId)
+                .Where(x => x.EffectiveFrom <= calculationDate)
+                .Where(x =>
+                    !x.EffectiveTo.HasValue ||
+                    x.EffectiveTo >= calculationDate)
+                .OrderBy(x => x.MinimumSales)
+                .ToListAsync(cancellationToken);
+        }
+
         public async Task<List<BonusRuleDto>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             return await Context.BonusRules
