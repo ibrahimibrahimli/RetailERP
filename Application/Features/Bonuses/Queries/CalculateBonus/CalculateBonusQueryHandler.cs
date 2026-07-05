@@ -48,13 +48,13 @@ namespace Application.Features.Bonuses.Queries.CalculateBonus
             var personalSales = await _saleReadRepository.GetEmployeePersonalSalesAsync(
                 request.EmployeeId, request.Year, request.Month, cancellationToken);
 
-            var rules = await _bonusRuleReadRepository.GetActiveRuleAsync(
+            var rules = await _bonusRuleReadRepository.GetActiveRulesAsync(
                 employee.PositionId,
                 request.Year,
                 request.Month,
                 cancellationToken);
 
-            if(!rules.Any())
+            if(rules.Count == 0)
                 return Result<BonusCalculationResult>.Failure("No active bonus rule found for the employee.");
 
             var context = new BonusCalculationContext(

@@ -1,4 +1,5 @@
-﻿using Application.Features.Bonuses.Queries.CheckBonusEligibility;
+﻿using Application.Features.Bonuses.Queries.CalculateBonus;
+using Application.Features.Bonuses.Queries.CheckBonusEligibility;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,14 @@ namespace RetailERP.API.Controllers
 
         [HttpGet("eligibility/{employeeId:guid}")]
         public async Task<IActionResult> CheckEligibility([FromQuery] CheckBonusEligibilityQuery query)
+        {
+            var result = await _mediator.Send(query);
+            return HandleResult(result);
+        }
+
+        [HttpGet("calculate")]
+
+        public async Task<IActionResult> Calculate([FromQuery] CalculateBonusQuery query)
         {
             var result = await _mediator.Send(query);
             return HandleResult(result);
