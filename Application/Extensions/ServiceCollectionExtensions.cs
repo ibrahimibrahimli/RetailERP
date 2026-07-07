@@ -22,6 +22,7 @@ namespace Application.Extensions
             services.AddScoped<IEmployeeBonusEligibilitySpecificationFactory, EmployeeBonusEligibilitySpecificationFactory>();
 
             services.AddScoped<FixedBonusStrategy>();
+            services.AddScoped<PercentageBonusStrategies>();
 
             services.AddScoped<IBonusStrategyFactory, BonusStrategyFactory>();
 

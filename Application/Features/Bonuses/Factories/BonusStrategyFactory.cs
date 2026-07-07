@@ -18,6 +18,7 @@ namespace Application.Features.Bonuses.Factories
             return type switch
             {
                 BonusType.Fixed => _serviceProvider.GetRequiredService<FixedBonusStrategy>(),
+                BonusType.Percentage => _serviceProvider.GetRequiredService<PercentageBonusStrategies>(),
 
                 _ => throw new NotSupportedException($"Bonus type '{type}' not supported")
             };

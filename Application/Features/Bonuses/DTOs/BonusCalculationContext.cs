@@ -4,5 +4,6 @@
      Guid EmployeeId,
      Guid PositionId,
      decimal PersonalSales,
-     DateOnly CalculationDate);
+     DateOnly CalculationDate,
+     IReadOnlyList<EmployeeSalesRankingDto> EmployeeRankings);
 }
