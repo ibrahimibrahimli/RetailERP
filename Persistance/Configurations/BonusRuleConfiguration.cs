@@ -33,6 +33,8 @@ namespace Persistance.Configurations
             builder.Property(x => x.IsActive)
                 .IsRequired();
 
+            builder.Property(x => x.Rank);
+
             builder.HasOne(x => x.Position)
                 .WithMany()
                 .HasForeignKey(x => x.PositionId)

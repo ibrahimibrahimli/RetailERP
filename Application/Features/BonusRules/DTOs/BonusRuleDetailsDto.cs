@@ -12,5 +12,6 @@ namespace Application.Features.BonusRules.DTOs
         decimal BonusValue,
         DateOnly EffectiveFrom,
         DateOnly? EffectiveTo,
-        bool IsActive);
+        bool IsActive,
+        int? Rank);
 }

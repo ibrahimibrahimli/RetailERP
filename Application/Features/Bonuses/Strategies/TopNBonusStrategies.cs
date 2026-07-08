@@ -12,16 +12,17 @@ namespace Application.Features.Bonuses.Strategies
                 .OrderByDescending(x => x.PersonalSales)
                 .ToList();
 
-            var employeeIndex = rankings.FindIndex(
-                x => x.EmployeeId == context.EmployeeId);
 
-            if (employeeIndex < 0)
+
+            var rank = rankings.FindIndex(
+                x => x.EmployeeId == context.EmployeeId) + 1;
+
+            if (rank <= 0)
                 return new BonusCalculationResult(BonusType.TopN, 0);
 
             var rule = rules
                 .Where(x => x.BonusType == BonusType.TopN)
-                .OrderBy(x => x.MinimumSales)
-                .Skip(employeeIndex)
+                .Where(x => x.Rank == rank)
                 .FirstOrDefault();
 
             if(rule is null)

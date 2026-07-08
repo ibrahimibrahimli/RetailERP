@@ -19,6 +19,7 @@ namespace Domain.Entities
         public decimal BonusValue { get; private set; }
 
         public bool IsActive { get; private set; }
+        public int Rank {   get; private set; }
 
         private BonusRule()
         {
@@ -31,7 +32,8 @@ namespace Domain.Entities
             decimal? maximumSales,
             decimal bonusValue,
             DateOnly effectiveFrom,
-            DateOnly? effectiveTo)
+            DateOnly? effectiveTo,
+            int? rank)
         {
             BonusType = bonusType;
             PositionId = positionId;
@@ -50,7 +52,8 @@ namespace Domain.Entities
             decimal? maximumSales,
             decimal bonusValue,
             DateOnly effectiveFrom,
-            DateOnly? effectiveTo)
+            DateOnly? effectiveTo,
+            int? rank = null)
         {
             return new BonusRule(
                 bonusType,
@@ -59,7 +62,8 @@ namespace Domain.Entities
                 maximumSales,
                 bonusValue,
                 effectiveFrom,
-                effectiveTo);
+                effectiveTo,
+                rank);
         }
 
         public void Deactivate()
