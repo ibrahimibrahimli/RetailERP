@@ -23,6 +23,7 @@ namespace Application.Extensions
 
             services.AddScoped<FixedBonusStrategy>();
             services.AddScoped<PercentageBonusStrategies>();
+            services.AddScoped<TopNBonusStrategies>();
 
             services.AddScoped<IBonusStrategyFactory, BonusStrategyFactory>();
 

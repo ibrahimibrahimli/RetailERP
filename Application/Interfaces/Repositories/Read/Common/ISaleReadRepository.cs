@@ -1,4 +1,5 @@
-﻿using Application.Features.Sales.DTOs;
+﻿using Application.Features.Bonuses.DTOs;
+using Application.Features.Sales.DTOs;
 using Domain.Entities;
 
 namespace Application.Interfaces.Repositories.Read.Common
@@ -14,5 +15,6 @@ namespace Application.Interfaces.Repositories.Read.Common
         Task<List<Sale>> GetRevenueByBranchAsync(int count);
         Task<List<Sale>> GetByDateRangeAsync(DateTime startDate, DateTime endDate);
         Task<decimal> GetEmployeePersonalSalesAsync(Guid employeeId, int year, int month, CancellationToken cancellation);
+        Task<List<EmployeeSalesRankingDto>> GetEmployeeSalesRankingAsync(int year, int month, Guid positionId, CancellationToken cancellation = default);
     }
 }

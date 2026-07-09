@@ -1,4 +1,5 @@
-﻿using Application.Features.Sales.DTOs;
+﻿using Application.Features.Bonuses.DTOs;
+using Application.Features.Sales.DTOs;
 using Application.Interfaces.Repositories.Read.Common;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -54,6 +55,24 @@ namespace Persistance.Repositories.Read.Common
                 .Where(x => x.CreatedAt >= startDate &&
                     x.CreatedAt < endDate)
                 .SumAsync(x => x.TotalAmount, cancellation);
+        }
+
+        public async Task<List<EmployeeSalesRankingDto>> GetEmployeeSalesRankingAsync(int year, int month, Guid positionId, CancellationToken cancellation = default)
+        {
+            var startDate = new DateTime(year, month, 1);
+            var endDate = startDate.AddMonths(1);
+
+            return await Context.Sales
+                .AsNoTracking()
+                .Where(x => !x.IsDeleted)
+                .Where(x => x.CreatedAt > startDate && x.CreatedAt < endDate)
+                .Where(x => x.Employee.PositionId == positionId)
+                .GroupBy(x => x.EmployeeId)
+                .Select(x => new EmployeeSalesRankingDto(
+                    x.Key,
+                    x.Sum(s => s.TotalAmount)))
+                .OrderByDescending(x => x.PersonalSales)
+                .ToListAsync(cancellation);
         }
 
         public async Task<List<Sale>> GetRevenueByBranchAsync(int count)

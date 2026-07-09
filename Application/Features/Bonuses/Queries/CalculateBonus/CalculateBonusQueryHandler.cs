@@ -48,6 +48,13 @@ namespace Application.Features.Bonuses.Queries.CalculateBonus
             var personalSales = await _saleReadRepository.GetEmployeePersonalSalesAsync(
                 request.EmployeeId, request.Year, request.Month, cancellationToken);
 
+            var employeeRankings = await _saleReadRepository.GetEmployeeSalesRankingAsync(
+                request.Year,
+                request.Month,
+                employee.PositionId,
+                cancellationToken);
+
+
             var rules = await _bonusRuleReadRepository.GetActiveRulesAsync(
                 employee.PositionId,
                 request.Year,
@@ -61,7 +68,8 @@ namespace Application.Features.Bonuses.Queries.CalculateBonus
                 employee.Id,
                 employee.PositionId,
                 personalSales,
-                new DateOnly(request.Year, request.Month, 1));
+                new DateOnly(request.Year, request.Month, 1),
+                employeeRankings);
 
             var strategy = _strategyFactory.Create(rules.First().BonusType);
 
