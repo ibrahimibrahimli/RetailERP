@@ -6,6 +6,7 @@ namespace Domain.Entities
     public sealed class BonusRule : BaseEntity
     {
         public BonusType BonusType { get; private set; }
+        public BonusScope BonusScope { get; private set; }
 
         public Guid PositionId { get; private set; }
         public Position Position { get; private set; } = default!;
@@ -27,6 +28,7 @@ namespace Domain.Entities
 
         private BonusRule(
             BonusType bonusType,
+            BonusScope BonusScope,
             Guid positionId,
             decimal minimumSales,
             decimal? maximumSales,
@@ -47,6 +49,7 @@ namespace Domain.Entities
 
         public static BonusRule Create(
             BonusType bonusType,
+            BonusScope bonusScope,
             Guid positionId,
             decimal minimumSales,
             decimal? maximumSales,
@@ -57,6 +60,7 @@ namespace Domain.Entities
         {
             return new BonusRule(
                 bonusType,
+                bonusScope,
                 positionId,
                 minimumSales,
                 maximumSales,
