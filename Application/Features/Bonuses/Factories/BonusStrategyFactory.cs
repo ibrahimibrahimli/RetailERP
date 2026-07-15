@@ -20,6 +20,7 @@ namespace Application.Features.Bonuses.Factories
                 BonusType.Fixed => _serviceProvider.GetRequiredService<FixedBonusStrategy>(),
                 BonusType.Percentage => _serviceProvider.GetRequiredService<PercentageBonusStrategies>(),
                 BonusType.TopN => _serviceProvider.GetRequiredService<TopNBonusStrategies>(),
+                BonusType.Combined => _serviceProvider.GetRequiredService<CombinedBonusStrategy>(),
 
                 _ => throw new NotSupportedException($"Bonus type '{type}' not supported")
             };

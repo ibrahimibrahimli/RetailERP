@@ -4,7 +4,6 @@ using Application.Features.Bonuses.Strategies;
 using Application.Features.Brands.Command.CreateBrand;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection.Metadata;
 
 namespace Application.Extensions
 {
@@ -24,6 +23,7 @@ namespace Application.Extensions
             services.AddScoped<FixedBonusStrategy>();
             services.AddScoped<PercentageBonusStrategies>();
             services.AddScoped<TopNBonusStrategies>();
+            services.AddScoped<CombinedBonusStrategy>();
 
             services.AddScoped<IBonusStrategyFactory, BonusStrategyFactory>();
 
