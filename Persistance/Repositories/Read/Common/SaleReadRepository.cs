@@ -110,6 +110,19 @@ namespace Persistance.Repositories.Read.Common
                 .ToListAsync();
         }
 
+        public async Task<decimal> GetStoreSalesAsync(Guid branchId, int year, int month, CancellationToken cancellationToken = default)
+        {
+            var startDate = new DateTime(year, month, 1);
+            var endDate = startDate.AddMonths(1);
+
+            return await Context.Sales
+                .AsNoTracking()
+                .Where(x => !x.IsDeleted)
+                .Where(x => x.BranchId == branchId)
+                .Where(x => x.CreatedAt >= startDate && x.CreatedAt <= endDate)
+                .SumAsync(x => x.TotalAmount, cancellationToken);
+        }
+
         public async Task<List<TopSellingProductDto>> GetTopSellingProductAsync(int count)
         {
             var data = await Context.SaleItems

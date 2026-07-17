@@ -16,5 +16,6 @@ namespace Application.Interfaces.Repositories.Read.Common
         Task<List<Sale>> GetByDateRangeAsync(DateTime startDate, DateTime endDate);
         Task<decimal> GetEmployeePersonalSalesAsync(Guid employeeId, int year, int month, CancellationToken cancellation);
         Task<List<EmployeeSalesRankingDto>> GetEmployeeSalesRankingAsync(int year, int month, Guid positionId, CancellationToken cancellation = default);
+        Task<decimal> GetStoreSalesAsync(Guid branchId, int year, int month, CancellationToken cancellationToken = default);
     }
 }

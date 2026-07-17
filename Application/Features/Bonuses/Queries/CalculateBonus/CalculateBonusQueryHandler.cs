@@ -42,11 +42,17 @@ namespace Application.Features.Bonuses.Queries.CalculateBonus
             var eligibilitySpecification = _eligibilityFactory.Create(transfers, request.Year, request.Month);
 
             var eligibilityResult = eligibilitySpecification.Evaluate(employee);
-            if(!eligibilityResult .IsSatisfied)
+            if(!eligibilityResult.IsSatisfied)
                 return Result<BonusCalculationResult>.Failure(eligibilityResult.Reason!);
 
             var personalSales = await _saleReadRepository.GetEmployeePersonalSalesAsync(
                 request.EmployeeId, request.Year, request.Month, cancellationToken);
+
+            var storeSales = await _saleReadRepository.GetStoreSalesAsync(
+                employee.BranchId,
+                request.Year,
+                request.Month,
+                cancellationToken);
 
             var employeeRankings = await _saleReadRepository.GetEmployeeSalesRankingAsync(
                 request.Year,
@@ -67,7 +73,9 @@ namespace Application.Features.Bonuses.Queries.CalculateBonus
             var context = new BonusCalculationContext(
                 employee.Id,
                 employee.PositionId,
+                employee.BranchId,
                 personalSales,
+                storeSales,
                 new DateOnly(request.Year, request.Month, 1),
                 employeeRankings);
 
